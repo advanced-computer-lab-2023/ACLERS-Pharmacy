@@ -7,6 +7,7 @@ const Patient = require('../models/Patient')
 const healthPackage=require('../models/healthPackage');
 const Applicant = require('../models/Applicant');
 const Pharmacist = require('../models/Pharmacist');
+const Medicine = require('../models/Medicine');
 
 
 const addAdmin = asyncHandler( async (req,res)=>{
@@ -79,6 +80,15 @@ const removeAdmin = asyncHandler(async (req, res) => {
       res.status(500).send({ message: "Error removing patient", error: error.message });
     }
   });
+
+  const viewMedicines = asyncHandler(async (req, res) => {
+    try {
+        const Medicines = await Medicine.find()
+        res.status(200).send(Medicines)
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
   
   
   
@@ -215,5 +225,5 @@ const viewApplicants = asyncHandler(async (req,res)=>{
     }
 })
 
-module.exports = {viewApplicants,addAdmin, removeAdmin, removePharmacist, removePatient,approveDoctorRequest,disapproveDoctorRequest}
+module.exports = {viewApplicants,addAdmin, removeAdmin, removePharmacist, removePatient,approveDoctorRequest,disapproveDoctorRequest,viewMedicines}
 
