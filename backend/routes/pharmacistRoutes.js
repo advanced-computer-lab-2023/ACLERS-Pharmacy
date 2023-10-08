@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { viewMedicines,viewMedicine, searchForMedicine}= require('../controllers/pharmacistController')
+const { viewMedicines,viewMedicine, searchForMedicine,filterMedicines}= require('../controllers/pharmacistController')
 
 
 
@@ -9,6 +9,8 @@ const { viewMedicines,viewMedicine, searchForMedicine}= require('../controllers/
 router.get('viewMedicines',viewMedicines)
 router.get('viewMedicine',viewMedicine)
 router.get('searchForMedicine',searchForMedicine)
+router.get('filterMedicines',filterMedicines)
+
 
 
 module.exports = router

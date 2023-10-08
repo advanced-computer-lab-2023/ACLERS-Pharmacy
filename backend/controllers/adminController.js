@@ -234,5 +234,18 @@ const searchForMedicine = asyncHandler( async (req, res) => {
   res.send(medicine)
 });
 
-module.exports = {searchForMedicine,viewApplicants,addAdmin, removeAdmin, removePharmacist, removePatient,approveDoctorRequest,disapproveDoctorRequest,viewMedicines}
+const filterMedicines = asyncHandler( async (req, res) => {
+
+   
+  const  medicinialUse= req.body.medicinialUse;
+
+  
+  const medicines= await Medicine.find({medicinialUse})
+  res.send(medicines)
+});
+
+
+
+module.exports = {filterMedicines,searchForMedicine,viewApplicants,addAdmin, removeAdmin, removePharmacist,
+   removePatient,approveDoctorRequest,disapproveDoctorRequest,viewMedicines}
 

@@ -32,4 +32,14 @@ const searchForMedicine = asyncHandler( async (req, res) => {
     res.send(medicine)
   });
 
-module.exports={viewMedicines,viewMedicine,searchForMedicine}
+  const filterMedicines = asyncHandler( async (req, res) => {
+
+   
+    const  medicinialUse= req.body.medicinialUse;
+  
+    
+    const medicines= await Medicine.find({medicinialUse})
+    res.send(medicines)
+  });
+
+module.exports={viewMedicines,viewMedicine,searchForMedicine,filterMedicines}
