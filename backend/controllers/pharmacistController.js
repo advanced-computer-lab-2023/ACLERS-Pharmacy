@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt');
-const Patient = require('../models/Patient')
+const Pharmacist = require('../models/Pharmacist')
 
 
 const viewMedicines = asyncHandler(async (req, res) => {
@@ -13,4 +13,3 @@ const viewMedicines = asyncHandler(async (req, res) => {
 })
 
 module.exports={viewMedicines}
-  
