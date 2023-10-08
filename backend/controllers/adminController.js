@@ -4,7 +4,6 @@ const Admin = require('../models/Admin')
 
 const Doctor = require('../models/Pharmacist')
 const Patient = require('../models/Patient')
-const healthPackage=require('../models/healthPackage');
 const Applicant = require('../models/Applicant');
 const Pharmacist = require('../models/Pharmacist');
 const Medicine = require('../models/Medicine');
