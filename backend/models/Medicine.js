@@ -1,7 +1,13 @@
 const mongoose = require('mongoose')
 
-const adminSchema = new mongoose.Schema({
+const MedicineSchema = new mongoose.Schema({
+    name:{
+type:String,
+required:true
+    },
+    
     picture:{
+
 type:String ,
 required:true
     }

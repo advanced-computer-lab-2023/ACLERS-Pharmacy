@@ -5,8 +5,8 @@ const Admin = require('../models/Admin')
 const Doctor = require('../models/Pharmacist')
 const Patient = require('../models/Patient')
 const Applicant = require('../models/Applicant');
-const Pharmacist = require('../models/Pharmacist');
 const Medicine = require('../models/Medicine');
+const Pharmacist = require('../models/Pharmacist');
 
 
 const addAdmin = asyncHandler( async (req,res)=>{
@@ -224,5 +224,15 @@ const viewApplicants = asyncHandler(async (req,res)=>{
     }
 })
 
-module.exports = {viewApplicants,addAdmin, removeAdmin, removePharmacist, removePatient,approveDoctorRequest,disapproveDoctorRequest,viewMedicines}
+const searchForMedicine = asyncHandler( async (req, res) => {
+
+   
+  const  name= req.body.name;
+
+  
+  const medicine= await Medicine.find(name)
+  res.send(medicine)
+});
+
+module.exports = {searchForMedicine,viewApplicants,addAdmin, removeAdmin, removePharmacist, removePatient,approveDoctorRequest,disapproveDoctorRequest,viewMedicines}
 
