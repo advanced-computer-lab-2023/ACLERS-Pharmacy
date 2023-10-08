@@ -46,15 +46,15 @@ const removeAdmin = asyncHandler(async (req, res) => {
     const doctorId = req.query.id;
   
     try {
-      const doctor = await Pharmacist.findByIdAndDelete(doctorId);
+      const Pharmacist = await Pharmacist.findByIdAndDelete(doctorId);
   
-      if (!doctor) {
-        return res.status(404).send({ message: "Doctor not found" });
+      if (!Pharmacist) {
+        return res.status(404).send({ message: "Pharmacist not found" });
       }
   
-      res.status(200).send({ message: "Doctor removed successfully" });
+      res.status(200).send({ message: "pharmacist removed successfully" });
     } catch (error) {
-      res.status(500).send({ message: "Error removing doctor", error: error.message });
+      res.status(500).send({ message: "Error removing pharmacist", error: error.message });
     }
   });
 
