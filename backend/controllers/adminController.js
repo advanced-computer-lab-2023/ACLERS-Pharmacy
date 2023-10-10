@@ -244,8 +244,46 @@ const filterMedicines = asyncHandler( async (req, res) => {
   res.send(medicines)
 });
 
+const viewPharmacists = asyncHandler(async (req,res)=>{
+  try {
+    var pharmacist = await Pharmacist.find();
+    if (!pharmacist) {
+      return res.status(404).json({ message: "no pharamacists were found" });
+    }
+    return res.status(200).send(pharmacist);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+
+})
+const viewPharmacistInfo = asyncHandler(async(req,res)=>{
+  try {
+    var pharmacist = await Pharmacist.findById(req.query.id)
+  //   if (!pharmacist) {
+  //     return res.status(404).json({ message: "no p were found" });
+  //   }
+    return res.status(200).send(pharmacist);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+})
+
+const ViewPatients = asyncHandler(async (req, res) => {
+  try {
+    const patients = await Patient.find().select('-prescription');
+    if (!patients) {
+      return res.status(404).json({ message: "No patients were found" });
+    }
+    return res.status(200).send(patients);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+});
+
+
 
 
 module.exports = {filterMedicines,searchForMedicine,viewApplicants,addAdmin, removeAdmin, removePharmacist,
-   removePatient,approveDoctorRequest,disapproveDoctorRequest,viewMedicines}
+   removePatient,approveDoctorRequest,disapproveDoctorRequest,viewMedicines,
+   ViewPatients,viewPharmacistInfo,viewPharmacists}
 

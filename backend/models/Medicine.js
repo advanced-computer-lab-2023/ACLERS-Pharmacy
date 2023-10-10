@@ -18,6 +18,14 @@ required:true
     , description:{
         type:String,
         required:true
+    },
+    details:{
+        type:String
+        , required:true
+    },
+    quantity:{
+        type : Number,
+        required:true
     }
 })
 
