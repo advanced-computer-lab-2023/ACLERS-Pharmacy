@@ -22,6 +22,7 @@ app.get('/',(req,res)=>{
 
 app.use('/auth',require('./routes/authRoutes'))
 
-
-
+app.use('/admin',require('./routes/adminRoutes'))
+app.use('/patient',require('./routes/patientRoutes'))
+app.use('/pharmacist',require('./routes/pharmacistRoutes'))
 app.listen(port,()=> console.log('server started on port '+port))
