@@ -1,6 +1,5 @@
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt');
-const Pharmacist = require('../models/Pharmacist');
 const Sales = require('../models/Sales');
 const Pharmacist = require('../models/Pharmacist');
 

@@ -1,8 +1,24 @@
+import { Routes, Route } from "react-router-dom";
 
 
-function App() {
+import PharmacistDashboard from "./pharmacist/PharmacistDashboard";
+
+import MedicineList from "./pharmacist/viewMedicines";
+
+
+
+
+
+const App=()=> {
   return (
-    null
+    <>
+    <Routes>
+      <Route path="/pharmacist/Dashboard"element={<PharmacistDashboard/>}/>
+      <Route path="/pharmacist/view-Medicines"element={<MedicineList/>}/>
+
+    
+    </Routes>
+    </>
   );
 }
 

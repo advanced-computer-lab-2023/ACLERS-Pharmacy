@@ -6,10 +6,10 @@ const { viewMedicines,viewMedicine, searchForMedicine,filterMedicines}= require(
 
 
 
-router.get('viewMedicines',viewMedicines)
-router.get('viewMedicine',viewMedicine)
-router.get('searchForMedicine',searchForMedicine)
-router.get('filterMedicines',filterMedicines)
+router.get('/viewMedicines',viewMedicines)
+router.get('/viewMedicine',viewMedicine)
+router.get('/searchForMedicine',searchForMedicine)
+router.get('/filterMedicines',filterMedicines)
 
 
 
