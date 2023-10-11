@@ -26,6 +26,14 @@ required:true
     quantity:{
         type : Number,
         required:true
+    },
+    sales:{
+        type:Number,
+        required:true
+    },
+    medicinialUse:{
+        type : String,
+        required:true
     }
 })
 

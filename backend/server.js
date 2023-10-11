@@ -4,6 +4,12 @@ const connectDB = require('./config/db')
 const { urlencoded } = require('body-parser')
 const port = process.env.PORT 
 
+const cors = require('cors'); // Import the cors package
+
+
+// Enable CORS for all routes
+
+
 
 
 
@@ -12,6 +18,7 @@ const port = process.env.PORT
 connectDB()
 
 const app = express()
+app.use(cors());
 
 app.use(express.json())
 //app.use(express.urlencoded({extended : false}))

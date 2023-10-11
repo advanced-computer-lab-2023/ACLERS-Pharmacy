@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt');
 const Sales = require('../models/Sales');
-const Pharmacist = require('../models/Pharmacist');
+const Medicine = require('../models/Medicine');
 
 
 const viewMedicines = asyncHandler(async (req, res) => {
@@ -14,14 +14,21 @@ const viewMedicines = asyncHandler(async (req, res) => {
 })
 
 const viewMedicine = asyncHandler(async (req, res) => {
-    try {
-        const medicine=req.query.medicineId
-        const sales = await Sales.find(medicine)
-        res.status(200).send(sales)
-    } catch (error) {
-        res.status(400).send(error)
+  try {
+    const medicineId = req.query.medicineId;
+    // Use the `medicineId` to fetch the medicine data
+    const medicine = await Medicine.findById(medicineId);
+
+    if (!medicine) {
+      return res.status(404).json({ message: 'Medicine not found' });
     }
-})
+
+    res.status(200).json(medicine);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 const searchForMedicine = asyncHandler( async (req, res) => {
 
    
@@ -36,23 +43,23 @@ const searchForMedicine = asyncHandler( async (req, res) => {
 
    
     const  medicinialUse= req.body.medicinialUse;
-  
+   
     
     const medicines= await Medicine.find({medicinialUse})
     res.send(medicines)
   });
   const AddMedicine = asyncHandler( async (req, res) => {
-    const  Medicine= req.body;
-
+    const  medicine= req.body;
+       
     const newMedicine = await Medicine.create({
-        name:Medicine.name,
-       price  :Medicine.price,
-       description:Medicine.description,
-       details:Medicine.details,
-       quantity:Medicine.quantity,
-       picture:Medicine.picture
-
-
+        name:medicine.name,
+       price  :medicine.price,
+       description:medicine.description,
+       details:medicine.details,
+       quantity:medicine.quantity,
+       picture:medicine.picture,
+      medicinialUse:medicine.medicinialUse ,
+      sales : medicine.sales
        })
        res.status(200).send(newMedicine)
 
@@ -62,13 +69,13 @@ const searchForMedicine = asyncHandler( async (req, res) => {
 
   const editMedicine = asyncHandler(async (req, res) => {
     try {
-      const MedicineId = req.query.medicineId;
-  
+      const MedicineId = req.query.MedicineId;
+  console.log(MedicineId)
       // Check if the health package exists
       const existingMedicine = await Medicine.findById(MedicineId);
   
       if (!existingMedicine) {
-        return res.status(404).json({ message: "Health package not found" });
+        return res.status(404).json({ message: "Medicine not found" });
       }
   
       // Parse the request body to get the updated field(s)
@@ -83,7 +90,7 @@ const searchForMedicine = asyncHandler( async (req, res) => {
         existingMedicine.details = details;
       }
       if (price) {
-        existingMedicine.Price = Price;
+        existingMedicine.price = price;
       }
       
   
