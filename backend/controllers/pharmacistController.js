@@ -1,6 +1,5 @@
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt');
-const Pharmacist = require('../models/Pharmacist');
 const Sales = require('../models/Sales');
 const Medicine = require('../models/Medicine');
 
@@ -15,14 +14,21 @@ const viewMedicines = asyncHandler(async (req, res) => {
 })
 
 const viewMedicine = asyncHandler(async (req, res) => {
-    try {
-        const medicine=req.query.medicineId
-        const medicine1 = await Medicine.find(medicine)
-        res.status(200).send(medicine1.quantity,medicine1.Sales)
-    } catch (error) {
-        res.status(400).send(error)
+  try {
+    const medicineId = req.query.medicineId;
+    // Use the `medicineId` to fetch the medicine data
+    const medicine = await Medicine.findById(medicineId);
+
+    if (!medicine) {
+      return res.status(404).json({ message: 'Medicine not found' });
     }
-})
+
+    res.status(200).json(medicine);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 const searchForMedicine = asyncHandler( async (req, res) => {
 
    
