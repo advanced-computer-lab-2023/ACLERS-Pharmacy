@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import PatientDetails from "../components/patientdetails";
+import { Link } from 'react-router-dom';
 
 const ViewPatients = () => {
   const [patients, setPatients] = useState(null);
@@ -20,7 +21,9 @@ const ViewPatients = () => {
       <h1>Patients</h1>
       {patients &&
         patients.map((patient) => (
-          <PatientDetails key={patient._id} patient={patient} />
+          <Link key={patient._id} to={`/admin/patient/${patient._id}`}>
+            <PatientDetails patient={patient} />
+          </Link>
         ))}
     </div>
   );

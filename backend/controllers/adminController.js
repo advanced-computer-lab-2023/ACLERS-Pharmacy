@@ -267,6 +267,16 @@ const viewPharmacistInfo = asyncHandler(async(req,res)=>{
     return res.status(400).send(error);
   }
 })
+const viewPatient = asyncHandler(async (req,res)=>{
+  try{
+    var patient = await Patient.findById(req.query.id)
+    if(!patient){
+      return res.status(404).json({ message: "no p were found" });
+    }return res.status(200).send(patient)
+  }catch(error){
+    return res.status(400).send(error)
+  }
+})
 
 const ViewPatients = asyncHandler(async (req, res) => {
   try {
@@ -285,5 +295,5 @@ const ViewPatients = asyncHandler(async (req, res) => {
 
 module.exports = {filterMedicines,searchForMedicine,viewApplicants,addAdmin, removeAdmin, removePharmacist,
    removePatient,approveDoctorRequest,disapproveDoctorRequest,viewMedicines,
-   ViewPatients,viewPharmacistInfo,viewPharmacists}
+   ViewPatients,viewPharmacistInfo,viewPharmacists,viewPatient}
 
