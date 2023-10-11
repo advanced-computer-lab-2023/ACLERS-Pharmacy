@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt');
 const Patient = require('../models/Patient')
+const Medicine = require('../models/Medicine')
 
 
 const viewMedicines = asyncHandler(async (req, res) => {

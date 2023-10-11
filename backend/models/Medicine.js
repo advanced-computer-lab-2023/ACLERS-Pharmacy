@@ -26,7 +26,15 @@ required:true
     quantity:{
         type : Number,
         required:true
+    },
+    sales:{
+        type:Number,
+        required:true
+    },
+    medicinialUse:{
+        type : String,
+        required:true
     }
 })
 
-module.exports = mongoose.model('Medicine',medicineSchema)
+module.exports = mongoose.model('Medicine',MedicineSchema)

@@ -7,9 +7,9 @@ const { searchForMedicine,filterMedicines } = require('../controllers/adminContr
 
 
 
-router.get('viewMedicines',viewMedicines)
-router.get('searchForMedicine',searchForMedicine)
-router.get('filterMedicines',filterMedicines)
+router.get('/viewMedicines',viewMedicines)
+router.get('/searchForMedicine',searchForMedicine)
+router.get('/filterMedicines',filterMedicines)
 
 
 module.exports = router
