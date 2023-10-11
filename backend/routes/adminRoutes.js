@@ -1,10 +1,12 @@
 const express = require('express')
 const router = express.Router()
 
-const {viewApplicants,approveDoctorRequest,disapproveDoctorRequest,addAdmin, removeAdmin, removePharmacist, removePatient, viewMedicines, searchForMedicine, filterMedicines,viewPharmacists,viewPharmacistInfo,ViewPatients}= require('../controllers/adminController')
+const {viewPharmacists,ViewPatients,viewApplicants,approveDoctorRequest,disapproveDoctorRequest,addAdmin, removeAdmin, removePharmacist, removePatient, viewMedicines, searchForMedicine, filterMedicines}= require('../controllers/adminController')
 
 
 
+router.get('/view-pharmacists',viewPharmacists)
+router.get('/view-patients',ViewPatients)
 router.post('/add-admin',addAdmin)
 router.delete('/remove-admin', removeAdmin)
 router.delete('/remove-pharmacist', removePharmacist)
