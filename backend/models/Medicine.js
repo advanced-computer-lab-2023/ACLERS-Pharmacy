@@ -29,4 +29,4 @@ required:true
     }
 })
 
-module.exports = mongoose.model('Medicine',medicineSchema)
+module.exports = mongoose.model('Medicine',MedicineSchema)
