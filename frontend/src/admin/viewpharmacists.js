@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PharmacistDetails from "../components/pharmacistdetails";
-
+import { Link } from 'react-router-dom';
 const ViewPharmacists = () => {
   const [pharmacists, setPharmacists] = useState(null);
 
@@ -20,10 +20,13 @@ const ViewPharmacists = () => {
       <h1>Pharmacists</h1>
       {pharmacists &&
         pharmacists.map((pharmacist) => (
-          <PharmacistDetails key={pharmacist._id} pharmacist={pharmacist} />
+          <Link key={pharmacist._id} to={`/admin/pharmacist/${pharmacist._id}`}>
+            <PharmacistDetails pharmacist={pharmacist} />
+          </Link>
         ))}
     </div>
   );
+  
 };
 
 export default ViewPharmacists;

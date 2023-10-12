@@ -7,6 +7,7 @@ import PatientDetailsPage from "./components/patientbasicinfo";
 import MedicineList from "./pharmacist/viewMedicines";
 import PharmacistDashboard from "./pharmacist/PharmacistDashboard";
 import ViewMedicine from "./pharmacist/showMedicine";
+import PharmacistDetailsPage from "./components/pharmacistbasicinfo";
 
 function App() {
   return (
@@ -19,12 +20,9 @@ function App() {
     <Route path="/pharmacist/Dashboard"element={<PharmacistDashboard/>}/>
       <Route path="/pharmacist/view-Medicines"element={<MedicineList/>}/>
       <Route path="/pharmacist/view-Medicine/:medicineId" element={<ViewMedicine />} />
-
-    
-      
-
-    
     <Route path="/admin/patient/:id" element={<PatientDetailsPage/>} />
+    <Route path="/admin/pharmacist/:id" element={<PharmacistDetailsPage/>} />
+
     </Routes>
     </>
   );
