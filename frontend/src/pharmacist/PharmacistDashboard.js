@@ -7,11 +7,9 @@ function PharmacistDashboard() {
       <nav>
         <ul>
           <li>
-            <Link to="/view-my-info">View My Info</Link>
+            <Link to="/pharmacist/add-medicine">Add Medicine</Link>
           </li>
-          <li>
-            <Link to="/view-my-appointments">View My Appointments</Link>
-          </li>
+         
           <li>
             <Link to="/pharmacist/view-Medicines">View Medicines</Link>
           </li>

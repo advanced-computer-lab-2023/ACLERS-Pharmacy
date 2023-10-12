@@ -50,7 +50,7 @@ const searchForMedicine = asyncHandler( async (req, res) => {
   });
   const AddMedicine = asyncHandler( async (req, res) => {
     const  medicine= req.body;
-       
+       console.log(medicine)
     const newMedicine = await Medicine.create({
         name:medicine.name,
        price  :medicine.price,
@@ -58,7 +58,7 @@ const searchForMedicine = asyncHandler( async (req, res) => {
        details:medicine.details,
        quantity:medicine.quantity,
        picture:medicine.picture,
-      medicinialUse:medicine.medicinialUse ,
+      medicinialUse:medicine.medicinalUse ,
       sales : medicine.sales
        })
        res.status(200).send(newMedicine)
