@@ -8,6 +8,9 @@ import MedicineList from "./pharmacist/viewMedicines";
 import PharmacistDashboard from "./pharmacist/PharmacistDashboard";
 import ViewMedicine from "./pharmacist/showMedicine";
 import PharmacistDetailsPage from "./components/pharmacistbasicinfo";
+import PatientDashboard from "./patient/PatientDashboard";
+import MedicineListPatient from "./patient/viewMedicines";
+import MedicineListAdmin from "./admin/viewMedicines";
 
 function App() {
   return (
@@ -20,6 +23,18 @@ function App() {
     <Route path="/pharmacist/Dashboard"element={<PharmacistDashboard/>}/>
       <Route path="/pharmacist/view-Medicines"element={<MedicineList/>}/>
       <Route path="/pharmacist/view-Medicine/:medicineId" element={<ViewMedicine />} />
+       <Route path="/patient/Dashboard" element={<PatientDashboard />} /> 
+
+      <Route path="/patient/view-Medicines"element={<MedicineListPatient/>}/>
+      <Route path="/admin/view-Medicines"element={<MedicineListAdmin/>}/>
+
+
+
+
+    
+      
+
+    
     <Route path="/admin/patient/:id" element={<PatientDetailsPage/>} />
     <Route path="/admin/pharmacist/:id" element={<PharmacistDetailsPage/>} />
 
