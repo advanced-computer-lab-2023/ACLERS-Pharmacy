@@ -13,6 +13,9 @@ class AdminDashboard extends Component {
             <li><Link to="/admin/view-applicants">View Applicants</Link></li>
             <li><Link to="/admin/add-health-package">Add Health Package</Link></li>
             <li><Link to="/admin/view-HealthPackages">View Health Packages</Link></li>
+            <li>
+            <Link to="/admin/view-Medicines">View Medicines</Link>
+          </li>
           </ul>
         </nav>
         {/* Add content for each section here */}
