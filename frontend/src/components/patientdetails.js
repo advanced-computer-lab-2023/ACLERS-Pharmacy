@@ -1,6 +1,10 @@
+import { Link ,useNavigate} from 'react-router-dom';
+
 const PatientDetails = ({ patient }) => {
-    const handleClick = async () => {
+  const navigate = useNavigate();
+    const handleClick = async (event) => {
       console.log(patient._id);
+    event.preventDefault()
   
       const url = `/admin/remove-patient?patientId=${patient._id}`;
       const response = await fetch(url, {
@@ -15,9 +19,10 @@ const PatientDetails = ({ patient }) => {
   
     return (
       <div className="patientdetails">
+         
         <h2>{patient.username}</h2>
         <p>{patient.password}</p>
-        <button onClick={handleClick}>delete</button>
+        <button type="button" onClick={handleClick}>delete</button>
       </div>
     );
   };

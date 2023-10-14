@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 
 function ViewMedicine() {
   const { medicineId } = useParams();
@@ -7,7 +7,7 @@ function ViewMedicine() {
   const [editMode, setEditMode] = useState(false);
   const [editedDescription, setEditedDescription] = useState('');
   const [editedPrice, setEditedPrice] = useState('');
-
+  const navigate = useNavigate();
   useEffect(() => {
     // Fetch the medicine data using the `medicineId` query parameter
     fetch(`http://localhost:8000/pharmacist/viewMedicine?medicineId=${medicineId}`)
@@ -55,6 +55,7 @@ function ViewMedicine() {
 
   return (
     <div>
+         <button onClick={() => navigate(-1)}>Go Back</button>
       <h1>Medicine Details</h1>
       <img src={medicine.picture} alt={medicine.name} />
       <h2>Name: {medicine.name}</h2>

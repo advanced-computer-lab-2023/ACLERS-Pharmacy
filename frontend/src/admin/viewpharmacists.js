@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import PharmacistDetails from "../components/pharmacistdetails";
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate} from 'react-router-dom';
 const ViewPharmacists = () => {
   const [pharmacists, setPharmacists] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchPharmacist = async () => {
       const response = await fetch("/admin/view-pharmacists");
@@ -17,6 +17,7 @@ const ViewPharmacists = () => {
   }, []);
   return (
     <div className="doctorviewer">
+       <button onClick={() => navigate(-1)}>Go Back</button>
       <h1>Pharmacists</h1>
       {pharmacists &&
         pharmacists.map((pharmacist) => (

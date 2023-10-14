@@ -1,8 +1,9 @@
 const PharmacistDetails = ({ pharmacist }) => {
-    const handleClick = async () => {
+    const handleClick = async (event) => {
       console.log("el button etdas");
       console.log(pharmacist._id);
-  
+     
+  event.preventDefault()
       const url = `/admin/remove-pharmacist?doctorId=${pharmacist._id}`;
       const response = await fetch(url, {
         method: "DELETE",
@@ -19,7 +20,7 @@ const PharmacistDetails = ({ pharmacist }) => {
         <div className="doctordetails">
           <h2>{pharmacist.username}</h2>
           <p>{pharmacist.password}</p>
-          <button onClick={handleClick}>delete</button>
+          <button type="button" onClick={handleClick}>delete</button>
         </div>
       </>
     );

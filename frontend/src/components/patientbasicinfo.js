@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 
 const PatientDetailsPage = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [patientDetails, setPatientDetails] = useState(null);
   console.log(id)
@@ -20,6 +21,7 @@ const PatientDetailsPage = () => {
 
   return (
     <div>
+       <button onClick={() => navigate(-1)}>Go Back</button>
       {patientDetails && (
         <div>
           <h1>Patient Details</h1>

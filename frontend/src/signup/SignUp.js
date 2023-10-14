@@ -33,9 +33,16 @@ export default function SignUp() {
   const [emergencyContactMobile, setEmergencyContactMobile] = useState("");
   const [emergencyContactRelation, setEmergencyContactRelation] =
     useState("wife"); // Initialize with a default value
-
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [serverErrors, setServerErrors] = useState([]);
+    
   const handleSubmit = (event) => {
     event.preventDefault();
+    setEmailError("");
+  setPasswordError("");
+  setServerErrors([]);
+
     const data = new FormData(event.currentTarget);
     const username = data.get("username");
     const name = data.get("name");
@@ -76,8 +83,20 @@ export default function SignUp() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        window.location.href = "/login";
+        if (data.message) {
+          alert(data.message);
+          if (data.errors.email) {
+            setEmailError(data.errors.email);
+          }
+          if (data.errors.password) {
+            setPasswordError(data.errors.password);
+          }
+          if (data.message) {
+            setServerErrors([data.message]);
+          }
+        } else {
+          window.location.href = "/login";
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -234,6 +253,7 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
+           
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">

@@ -66,9 +66,13 @@ export default function PharmacistSignUp() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        if(data.message){
+          alert(data.message)
+        }else{
         //console.log("Pharmacist:", newPharmacist.username);
         // Redirect to a different page after successful registration
-        //window.location.href = "/login";
+        window.location.href = "/login";
+        }
       })
       .catch((err) => {
         console.log("fih error : ", err);

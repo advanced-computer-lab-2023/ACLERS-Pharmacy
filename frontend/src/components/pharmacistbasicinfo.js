@@ -1,11 +1,11 @@
 // PharmacistDetailsPage.js
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams ,useNavigate} from "react-router-dom";
 
 const PharmacistDetailsPage = () => {
   const { id } = useParams();
   const [pharmacistDetails, setPharmacistDetails] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchPharmacistDetails = async () => {
       const response = await fetch(`/admin/viewPharmacistInfo?id=${id}`);
@@ -19,6 +19,7 @@ const PharmacistDetailsPage = () => {
 
   return (
     <div>
+      <button onClick={() => navigate(-1)}>Go Back</button>
       {pharmacistDetails && (
         <div>
           <h1>Pharmacist Details</h1>
