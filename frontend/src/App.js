@@ -17,6 +17,9 @@ import PharmacistSignUpPage from "./signup/signupPharmacist";
 import ViewApplicants from "./admin/viewapplicants";
 import SignupDirectory from "./signupdirectory/SignUpPage";
 import Login from "./login/SignInSide";
+import ChangePassword from "./login/ChangePassword";
+import OTPPage from "./login/otppage";
+import NewPasswordPage from "./login/NewPasswordPage";
 
 function App() {
   return (
@@ -51,6 +54,9 @@ function App() {
         <Route path="/signuppage" element={<SignupDirectory />} />
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/changepassword/:id" element={<ChangePassword />} />
+        <Route path="/otppage" element={<OTPPage/>} />
+        <Route path="/newpasswordpage/:id" element={<NewPasswordPage/>} />
       </Routes>
     </>
   );
