@@ -14,7 +14,9 @@ const addToCart = asyncHandler(async(req,res)=>{
 
     // Find the medicine by ID
     const medicine = await Medicine.findById(medicineId);
-
+   if(quantity>medicine.quantity){
+  return res.status(400).json({message:'insufficient quantity'});
+   }
     if (!medicine) {
       return res.status(404).json({ error: 'Medicine not found' });
     }
@@ -269,7 +271,15 @@ const searchForMedicine = asyncHandler( async (req, res) => {
         wallet.balance +=order.totalAmount;
         await wallet.save();
         await order.save();
-  
+        for(const orderItem of order.items){
+          const medicine = orderItem.medicine;
+          medicine.quantity += orderItem.quantity;
+          await medicine.save();
+
+    // Increment sales attribute
+    medicine.sales -= orderItem.quantity;
+    await medicine.save();
+        }
         // Respond with success message or updated order details
         res.json({ success: true, message: 'Order canceled successfully', order });
       } else {
@@ -287,6 +297,17 @@ const searchForMedicine = asyncHandler( async (req, res) => {
    const {orderId }= req.query
    const order = await Order.findById(orderId)
    console.log(order)
+
+   for (const orderItem of order.items) {
+    const medicine = orderItem.medicine;
+
+    if (!medicine || medicine.quantity < orderItem.quantity) {
+      return res.status(400).json({ message: 'Insufficient medicine quantity' });
+    }
+
+    // Decrease medicine quantity
+    
+  }
     if (paymentMethod === 'Wallet') {
       // Check if the patient's wallet balance is sufficient
       
@@ -307,7 +328,17 @@ const searchForMedicine = asyncHandler( async (req, res) => {
         order.paymentMethod =paymentMethod;
         order.deliveryAddress = deliveryAddress
         order.status = "Placed"
+        
         await order.save()
+        for(const orderItem of order.items){
+          const medicine = orderItem.medicine;
+          medicine.quantity -= orderItem.quantity;
+          await medicine.save();
+
+    // Increment sales attribute
+    medicine.sales += orderItem.quantity;
+    await medicine.save();
+        }
       }
     }else if(paymentMethod === "Credit Card"){
       const name = "Order"
@@ -333,6 +364,15 @@ const searchForMedicine = asyncHandler( async (req, res) => {
         order.deliveryAddress = deliveryAddress
         order.status = "Placed"
         await  order.save()
+        for(const orderItem of order.items){
+          const medicine = orderItem.medicine;
+          medicine.quantity -= orderItem.quantity;
+          await medicine.save();
+
+    // Increment sales attribute
+    medicine.sales += orderItem.quantity;
+    await medicine.save();
+        }
          // return res.json(stripeResponse)
         }catch(error){
           console.log(error)
@@ -342,6 +382,15 @@ const searchForMedicine = asyncHandler( async (req, res) => {
       order.deliveryAddress = deliveryAddress
       order.status = "Placed"
       await order.save()
+      for(const orderItem of order.items){
+        const medicine = orderItem.medicine;
+        medicine.quantity -= orderItem.quantity;
+        await medicine.save();
+
+  // Increment sales attribute
+  medicine.sales += orderItem.quantity;
+  await medicine.save();
+      }
     }
   })
   const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
