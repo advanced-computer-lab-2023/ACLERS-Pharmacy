@@ -42,8 +42,15 @@ const applicantSchema = new mongoose.Schema({
      }
      , status:{
         type: String,
-        enum: ['accepted', 'rejected'],
+        enum: ['accepted', 'rejected','Pending'],
         required: true,
+     }, idDocument:{
+      type:String
+     },medicalLicense:{
+      type:String
+     },
+     medicalDegree:{
+      type:String
      }
     })
 

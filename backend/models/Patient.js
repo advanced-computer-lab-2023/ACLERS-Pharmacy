@@ -1,5 +1,25 @@
 const mongoose = require('mongoose')
 
+const AddressSchema = new mongoose.Schema({
+  addressLine1: {
+    type: String,
+    required: true,
+  },
+  addressLine2: String,
+  city: {
+    type: String,
+    required: true,
+  },
+  state: String,
+  postalCode: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+});
 const patientSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -35,6 +55,10 @@ const patientSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
+      },
+      deliveryAddresses: {
+        type: [AddressSchema], // This defines an array of addresses
+        default: [],
       },
       emergencyContact: {
         fullName: {

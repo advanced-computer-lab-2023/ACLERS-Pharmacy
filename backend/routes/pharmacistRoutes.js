@@ -1,15 +1,16 @@
 const express = require('express')
 const router = express.Router()
 
-const { viewMedicines,viewMedicine, searchForMedicine,filterMedicines,AddMedicine,editMedicine}= require('../controllers/pharmacistController')
+const {upload, uploadMedicineImage,viewMedicines,viewMedicine, searchForMedicine,filterMedicines,AddMedicine,editMedicine}= require('../controllers/pharmacistController')
+const{protect,checkRole} = require('../middleware/authMiddleware')
 
 
+router.post('/upload-medicine-image',protect,checkRole('pharmacist'), upload.single('medicineImage'), uploadMedicineImage);
+router.get('/viewMedicines',protect,checkRole('pharmacist'),viewMedicines)
+router.get('/viewMedicine',protect,checkRole('pharmacist'),viewMedicine)
+router.get('/searchForMedicine',protect,checkRole('pharmacist'),searchForMedicine)
+router.get('/filterMedicines',protect,checkRole('pharmacist'),filterMedicines)
+router.post('/AddMedicine',protect,checkRole('pharmacist'),AddMedicine)
+router.put('/editMedicine',protect,checkRole('pharmacist'),editMedicine)
 
-
-router.get('/viewMedicines',viewMedicines)
-router.get('/viewMedicine',viewMedicine)
-router.get('/searchForMedicine',searchForMedicine)
-router.get('/filterMedicines',filterMedicines)
-router.post('/AddMedicine',AddMedicine)
-router.put('/editMedicine',editMedicine)
 module.exports = router
