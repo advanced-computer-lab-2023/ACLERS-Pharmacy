@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 
+=======
+import { Link ,useNavigate} from 'react-router-dom';
+>>>>>>> main
 const CreateMedicine = () => {
   const [medicineData, setMedicineData] = useState({
     name: '',
@@ -11,6 +15,10 @@ const CreateMedicine = () => {
     sales: '',
     medicinalUse: ''
   });
+<<<<<<< HEAD
+=======
+  const navigate = useNavigate();
+>>>>>>> main
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,6 +63,10 @@ const CreateMedicine = () => {
 
   return (
     <div>
+<<<<<<< HEAD
+=======
+       <button onClick={() => navigate(-1)}>Go Back</button>
+>>>>>>> main
       <h1>Create Medicine</h1>
       <form onSubmit={handleSubmit}>
         <div>
