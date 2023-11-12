@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
-import { Link } from 'react-router-dom';
-=======
 import { Link,useNavigate } from 'react-router-dom';
->>>>>>> main
 
 const MedicineList = () => {
   const [medicines, setMedicines] = useState([]);
   const [searchName, setSearchName] = useState('');
   const [filterMedicinalUse, setFilterMedicinalUse] = useState('');
   const [filteredMedicines, setFilteredMedicines] = useState([]);
-<<<<<<< HEAD
-
-=======
   const navigate = useNavigate();
->>>>>>> main
   useEffect(() => {
     // Fetch medicines from the backend (replace with your actual API endpoint)
     fetch(`http://localhost:8000/pharmacist/viewMedicines`)
@@ -42,10 +34,7 @@ const MedicineList = () => {
 
   return (
     <div>
-<<<<<<< HEAD
-=======
          <button onClick={() => navigate(-1)}>Go Back</button>
->>>>>>> main
       <h1>Available Medicines</h1>
       <div>
         <input

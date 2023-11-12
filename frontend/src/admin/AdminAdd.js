@@ -1,20 +1,12 @@
 import React, { useState } from "react";
-<<<<<<< HEAD
-
-=======
 import { Link ,useNavigate} from 'react-router-dom';
->>>>>>> main
 
 function AdminAdd() {
   // Define state variables to store the username and password
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-<<<<<<< HEAD
-
-=======
   const navigate = useNavigate();
   
->>>>>>> main
   // Function to handle the form submission when the "Add Admin" button is clicked
   const handleAddAdmin = (event) => {
     event.preventDefault();
@@ -34,11 +26,7 @@ function AdminAdd() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-<<<<<<< HEAD
-        window.location.href = "/admin";
-=======
         window.location.href = "/admin/Dashboard";
->>>>>>> main
       })
       .catch((err) => {
         console.log(err);
@@ -50,10 +38,7 @@ function AdminAdd() {
 
   return (
     <div className="body">
-<<<<<<< HEAD
-=======
       <button onClick={() => navigate(-1)}>Go Back</button>
->>>>>>> main
       <h1>Add Admin</h1>
       <div>
         <label htmlFor="username">Username:</label>

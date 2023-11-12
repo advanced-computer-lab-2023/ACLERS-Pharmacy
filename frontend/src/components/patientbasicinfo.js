@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
-<<<<<<< HEAD
-import { useParams } from "react-router-dom";
-
-const PatientDetailsPage = () => {
-=======
 import { useParams,useNavigate } from "react-router-dom";
 
 const PatientDetailsPage = () => {
   const navigate = useNavigate();
->>>>>>> main
   const { id } = useParams();
   const [patientDetails, setPatientDetails] = useState(null);
   console.log(id)
@@ -27,10 +21,7 @@ const PatientDetailsPage = () => {
 
   return (
     <div>
-<<<<<<< HEAD
-=======
        <button onClick={() => navigate(-1)}>Go Back</button>
->>>>>>> main
       {patientDetails && (
         <div>
           <h1>Patient Details</h1>

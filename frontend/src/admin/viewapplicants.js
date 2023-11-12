@@ -1,16 +1,9 @@
 import { useEffect, useState } from "react";
 import ApplicantDetails from "../components/applicantdetails.js";
-<<<<<<< HEAD
-
-const ViewApplicants = () => {
-  const [applicants, setApplicants] = useState(null);
-
-=======
 import { Link ,useNavigate} from 'react-router-dom';
 const ViewApplicants = () => {
   const [applicants, setApplicants] = useState(null);
   const navigate = useNavigate();
->>>>>>> main
   useEffect(() => {
     const fetchApplicants = async () => {
       const response = await fetch("/admin/view-applicants");
@@ -22,15 +15,6 @@ const ViewApplicants = () => {
     };
     fetchApplicants();
   }, []);
-<<<<<<< HEAD
-  return (
-    <div className="applicantviewer">
-      <h1>Applicants</h1>
-      {applicants &&
-        applicants.map((applicant) => (
-          <ApplicantDetails key={applicant._id} applicant={applicant} />
-        ))}
-=======
 
   const handleAccept = (applicantId) => {
     // Send a POST request to "/admin/approve-doctor?applicantId=<applicantId>"
@@ -75,7 +59,6 @@ const ViewApplicants = () => {
         </div>
         ))}
         
->>>>>>> main
     </div>
   );
 };
