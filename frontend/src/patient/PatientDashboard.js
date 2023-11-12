@@ -14,6 +14,9 @@ function PatientDashboard() {
             <Link to="/patient/view-Medicines">View Medicines</Link>
           </li>
           {/* Add more navigation links as needed */}
+          <li>
+            <Link to="/patient/AddressForm">View Medicines</Link>
+          </li>
         </ul>
       </nav>
     </div>
