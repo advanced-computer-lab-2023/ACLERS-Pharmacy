@@ -47,16 +47,18 @@ function PatientDashboard() {
           
             <Link to="/patient/view-Medicines">View Medicines</Link>
           </li>
+          
+          <li>
+         
+            <Link to="/patient/view-cart">View Cart</Link>
+            </li>
+            <li>
+            <Link to ={`/patient/change-password`}>Change Password</Link>
+          </li>
+        
           <li>
             <button onClick={handleLogout}>Logout</button>
           </li>
-          <li>
-         
-            <button onClick={() => navigate('/patient/view-cart')}>View Cart</button>
-            </li>
-        
-        
-        
         </ul>
       </nav>
     

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams,useNavigate } from 'react-router-dom';
-
+import jwt from "jsonwebtoken-promisified";
 function ViewMedicine() {
   const { medicineId } = useParams();
   const [medicine, setMedicine] = useState(null);
@@ -8,9 +8,23 @@ function ViewMedicine() {
   const [editedDescription, setEditedDescription] = useState('');
   const [editedPrice, setEditedPrice] = useState('');
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const decodedToken = jwt.decode(token);
+  console.log("decoded Token:", decodedToken);
+ 
+
+ 
   useEffect(() => {
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    
+    };
     // Fetch the medicine data using the `medicineId` query parameter
-    fetch(`http://localhost:8000/pharmacist/viewMedicine?medicineId=${medicineId}`)
+    fetch(`http://localhost:8000/pharmacist/viewMedicine?medicineId=${medicineId}`,requestOptions)
       .then((response) => response.json())
       .then((data) => {
         setMedicine(data);
@@ -52,12 +66,17 @@ function ViewMedicine() {
   if (!medicine) {
     return <div>Loading...</div>;
   }
-
+  if (!token) {
+    // Handle the case where id is not available
+    return <div>ACCESS DENIED, You are not authenticated, please log in</div>;
+  }if(decodedToken.role !=="pharmacist"){
+    return <div>ACCESS DENIED, You are not authorized</div>;
+  }
   return (
     <div>
          <button onClick={() => navigate(-1)}>Go Back</button>
       <h1>Medicine Details</h1>
-      <img src={medicine.picture} alt={medicine.name} />
+      <img src={`http://localhost:8000/uploads/${medicine.picture.substring(8)}`} style={{ maxWidth: "50%", maxHeight: "50%", objectFit: "contain" }}alt={medicine.name} />
       <h2>Name: {medicine.name}</h2>
 
       {editMode ? (

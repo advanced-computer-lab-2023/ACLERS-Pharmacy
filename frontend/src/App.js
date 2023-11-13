@@ -19,7 +19,8 @@ import SignupDirectory from "./signupdirectory/SignUpPage";
 import Login from "./login/SignInSide";
 import CartPage from "./patient/Cart";
 import OrderPage from "./patient/Order";
-
+import PasswordChangeForm from "./components/changePassword";
+import ForgotPassword from "./login/forgotPassword";
 function App() {
   return (
     <>
@@ -61,6 +62,10 @@ function App() {
         <Route path="/signuppage" element={<SignupDirectory />} />
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/patient/change-password/" element={<PasswordChangeForm/>}/>
+        <Route path="/pharmacist/change-password/" element={<PasswordChangeForm/>}/>
+        <Route path="/admin/change-password/" element={<PasswordChangeForm/>}/>
+        <Route path="/ForgotPassword" element={<ForgotPassword />} />
       </Routes>
     </>
   );

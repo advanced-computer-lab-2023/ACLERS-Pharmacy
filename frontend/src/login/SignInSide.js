@@ -80,10 +80,10 @@ export default function SignInSide() {
           });
         } else if (decodedToken.role === "pharmacist") {
           // Redirect to doctor home page
-          navigate("/doctor/dashboard", { state: { id: decodedToken.id } });
+          navigate("/pharmacist/Dashboard", { state: { id: decodedToken.id } });
         } else if (decodedToken.role === "admin") {
           // Redirect to doctor home page
-          navigate("/admin/dashboard", { state: { id: decodedToken.id } });
+          navigate("/admin/Dashboard", { state: { id: decodedToken.id } });
         }
        
       } else {
@@ -189,7 +189,8 @@ export default function SignInSide() {
                   </Link><br></br>
                   <Link href="/ForgotPassword" variant="body2">
                     {"Forgot Password ?"}
-                  </Link>
+                  </Link><br></br>
+                 
                 </Grid>
                 <Grid item></Grid>
               </Grid>

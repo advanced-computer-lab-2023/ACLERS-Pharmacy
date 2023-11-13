@@ -1,50 +1,74 @@
 import React, { useState } from 'react';
-import { Link ,useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import jwt from 'jsonwebtoken-promisified';
+
 const CreateMedicine = () => {
+  const token = localStorage.getItem('token');
+  const decodedToken = jwt.decode(token);
+  console.log('decoded Token:', decodedToken);
+
   const [medicineData, setMedicineData] = useState({
     name: '',
-    picture: '',
+    medicineImage: null, // Updated key to match backend ('picture' to 'medicineImage')
     price: '',
     description: '',
     details: '',
     quantity: '',
     sales: '',
-    medicinalUse: ''
+    medicinalUse: '',
   });
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setMedicineData({
-      ...medicineData,
-      [name]: value
-    });
+    const { name, value, type } = e.target;
+
+    // If the input is a file, handle it separately
+    if (type === 'file') {
+      // Update 'picture' to 'medicineImage' to match the backend key
+      setMedicineData({
+        ...medicineData,
+        medicineImage: e.target.files[0],
+      });
+    } else {
+      setMedicineData({
+        ...medicineData,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        console.log(medicineData.medicinalUse)
+      console.log(medicineData.medicinalUse);
+
+      const formData = new FormData();
+      Object.entries(medicineData).forEach(([key, value]) => {
+        // Update 'picture' to 'medicineImage' to match the backend key
+        formData.append(key === 'picture' ? 'medicineImage' : key, value);
+      });
+
       const response = await fetch('http://localhost:8000/pharmacist/AddMedicine', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(medicineData)
+        body: formData,
       });
 
       if (response.ok) {
         alert('Medicine created successfully!');
         setMedicineData({
           name: '',
-          picture: '',
+          medicineImage: null,
           price: '',
           description: '',
           details: '',
           quantity: '',
           sales: '',
-          medicinalUse: ''
+          medicinalUse: '',
         });
       } else {
         alert('Failed to create medicine. Please try again.');
@@ -54,9 +78,17 @@ const CreateMedicine = () => {
     }
   };
 
+  if (!token) {
+    // Handle the case where id is not available
+    return <div>ACCESS DENIED, You are not authenticated, please log in</div>;
+  }
+  if (decodedToken.role !== 'pharmacist') {
+    return <div>ACCESS DENIED, You are not authorized</div>;
+  }
+
   return (
     <div>
-       <button onClick={() => navigate(-1)}>Go Back</button>
+      <button onClick={() => navigate(-1)}>Go Back</button>
       <h1>Create Medicine</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -74,11 +106,10 @@ const CreateMedicine = () => {
 
         <div>
           <label>
-            Picture:
+            Medicine Image:
             <input
-              type="text"
-              name="picture"
-              value={medicineData.picture}
+              type="file"
+              name="medicineImage"
               onChange={handleChange}
               required
             />

@@ -28,55 +28,44 @@ export default function PharmacistSignUp() {
   const [hourlyRate, setHourlyRate] = useState("");
   const [affiliation, setAffiliation] = useState("");
   const [educationalBackground, setEducationalBackground] = useState("");
-
-  const handleSubmit = (event) => {
+  const [idDocument, setIdDocument] = useState(null);
+  const [medicalLicense, setMedicalLicense] = useState(null);
+  const [medicalDegree, setMedicalDegree] = useState(null);
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const username = data.get("username");
-    const name = data.get("name");
-    const email = data.get("email");
-    const password = data.get("password");
-    const dateOfBirth = data.get("dateOfBirth");
-    const hourlyRate = data.get("hourlyRate");
-    const affiliation = data.get("affiliation");
-    const educationalBackground = data.get("educationalBackground");
 
-    const newPharmacist = {
-      username,
-      name,
-      email,
-      password,
-      dateOfBirth,
-      hourlyRate,
-      affiliation,
-      educationalBackground,
-    };
+    const formData = new FormData();
+    formData.append("username", username);
+    console.log(username+"username ")
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("dateOfBirth", dateOfBirth);
+    formData.append("hourlyRate", hourlyRate);
+    formData.append("affiliation", affiliation);
+    formData.append("educationalBackground", educationalBackground);
+    formData.append("idDocument", idDocument);
+    formData.append("medicalLicense", medicalLicense);
+    formData.append("medicalDegree", medicalDegree);
 
-    console.log({
-      newPharmacist,
-    });
+    try {
+      const response = await fetch("/auth/register-Pharmacist", {
+        method: "POST",
+        body: formData,
+      });
 
-    fetch("/auth/register-Pharmacist", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newPharmacist),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if(data.message){
-          alert(data.message)
-        }else{
-        //console.log("Pharmacist:", newPharmacist.username);
+      const data = await response.json();
+
+      if (data.message) {
+        alert(data.message);
+      } else {
+        console.log(data)
         // Redirect to a different page after successful registration
         window.location.href = "/login";
-        }
-      })
-      .catch((err) => {
-        console.log("fih error : ", err);
-      });
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
   };
 
   return (
@@ -115,85 +104,117 @@ export default function PharmacistSignUp() {
           >
             {/* Pharmacist Registration Fields */}
             <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  autoComplete="username"
-                  name="username"
-                  required
-                  fullWidth
-                  id="username"
-                  label="Username"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="name"
-                  name="name"
-                  required
-                  fullWidth
-                  id="name"
-                  label="Name"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="email"
-                  name="email"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="dateOfBirth"
-                  label="Date of Birth"
-                  type="date"
-                  id="dateOfBirth"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="hourlyRate"
-                  label="Hourly Rate"
-                  id="hourlyRate"
-                  type="number"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="affiliation"
-                  label="Affiliation"
-                  id="affiliation"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="educationalBackground"
-                  label="Educational Background"
-                  id="educationalBackground"
-                />
-              </Grid>
+            <Grid item xs={12}>
+  <TextField
+    autoComplete="username"
+    name="username"
+    required
+    fullWidth
+    id="username"
+    label="Username"
+    autoFocus
+    onChange={(e) => setUsername(e.target.value)}
+  />
+</Grid>
+<Grid item xs={12} sm={6}>
+  <TextField
+    autoComplete="name"
+    name="name"
+    required
+    fullWidth
+    id="name"
+    label="Name"
+    onChange={(e) => setName(e.target.value)}
+  />
+</Grid>
+<Grid item xs={12} sm={6}>
+  <TextField
+    autoComplete="email"
+    name="email"
+    required
+    fullWidth
+    id="email"
+    label="Email Address"
+    onChange={(e) => setEmail(e.target.value)}
+  />
+</Grid>
+<Grid item xs={12}>
+  <TextField
+    required
+    fullWidth
+    name="password"
+    label="Password"
+    type="password"
+    id="password"
+    onChange={(e) => setPassword(e.target.value)}
+  />
+</Grid>
+<Grid item xs={12}>
+  <TextField
+    required
+    fullWidth
+    name="dateOfBirth"
+    label="Date of Birth"
+    type="date"
+    id="dateOfBirth"
+    onChange={(e) => setDateOfBirth(e.target.value)}
+  />
+</Grid>
+<Grid item xs={12}>
+  <TextField
+    required
+    fullWidth
+    name="hourlyRate"
+    label="Hourly Rate"
+    id="hourlyRate"
+    type="number"
+    onChange={(e) => setHourlyRate(e.target.value)}
+  />
+</Grid>
+<Grid item xs={12}>
+  <TextField
+    required
+    fullWidth
+    name="affiliation"
+    label="Affiliation"
+    id="affiliation"
+    onChange={(e) => setAffiliation(e.target.value)}
+  />
+</Grid>
+<Grid item xs={12}>
+  <TextField
+    required
+    fullWidth
+    name="educationalBackground"
+    label="Educational Background"
+    id="educationalBackground"
+    onChange={(e) => setEducationalBackground(e.target.value)}
+  />
+</Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <label htmlFor="idDocument">ID Document:</label>
+              <input
+                type="file"
+                id="idDocument"
+                onChange={(e) => setIdDocument(e.target.files[0])}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <label htmlFor="medicalLicense">Medical License:</label>
+              <input
+                type="file"
+                id="medicalLicense"
+                onChange={(e) => setMedicalLicense(e.target.files[0])}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <label htmlFor="medicalDegree">Medical Degree:</label>
+              <input
+                type="file"
+                id="medicalDegree"
+                onChange={(e) => setMedicalDegree(e.target.files[0])}
+              />
             </Grid>
             <Button
               type="submit"

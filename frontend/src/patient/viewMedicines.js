@@ -118,7 +118,7 @@ const MedicineListPatient = () => {
       <ul>
         {medicines.map((medicine) => (
           <li key={medicine._id}>
-            <img src={medicine.picture} alt={medicine.name} />
+            <img src= {`http://localhost:8000/uploads/${medicine.picture.substring(8)}`} style={{ maxWidth: "50%", maxHeight: "50%", objectFit: "contain" }} alt={medicine.name} />
             <h3>{medicine.name}</h3>
             <p>Description: {medicine.description}</p>
             <p>Medicinal Use: {medicine.medicinialUse}</p>
