@@ -53,13 +53,22 @@ const searchForMedicine = asyncHandler( async (req, res) => {
   const AddMedicine = asyncHandler( async (req, res) => {
     const  medicine= req.body;
        console.log(medicine)
+
+       const medicineImage = req.file['medicineImage'];
+    // Check if a file is provided in the request
+    if (!req.file) {
+      return res.status(400).json({ error: 'Please upload an image file' });
+    }
+  
+    // Get the file path of the uploaded image
+    const imagePath = req.file.path;
     const newMedicine = await Medicine.create({
         name:medicine.name,
        price  :medicine.price,
        description:medicine.description,
        details:medicine.details,
        quantity:medicine.quantity,
-       picture:medicine.picture,
+       picture:imagePath,
       medicinialUse:medicine.medicinalUse ,
       sales : medicine.sales
        })

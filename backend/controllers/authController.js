@@ -19,7 +19,7 @@ const login= asyncHandler(async (req,res)=>{
   console.log(req.body)
   const pharmacist= await Pharmacist.findOne({email})
   const applicant=await Applicant.findOne({email})
-  const admin = await Admin.findOne({email})
+  const admin = await Admin.findOne({username:email})
   if(patient && (await bcrypt.compare(password,patient.password))){
    return res.json({
         token:generateToken(patient._id,"patient")
@@ -63,7 +63,7 @@ const changePassword = asyncHandler (async (req, res) => {
     const userId = req.user.id
    
   
-
+   console.log(req.body)
    
     // Extract the user's role from the authenticated JWT token
     const userRole = req.role;
@@ -72,7 +72,7 @@ const changePassword = asyncHandler (async (req, res) => {
     if (userRole !== 'pharmacist' && userRole !== 'patient' && userRole !== 'admin') {
       return res.status(403).json({ message: 'Permission denied' });
     }
-
+   console.log(req.user)
     // Check if the old password matches
     const isPasswordValid = await bcrypt.compare(oldPassword, req.user.password);
 
@@ -259,6 +259,8 @@ const upload = multer({
 });
 const registerPharmacist = asyncHandler(async (req, res) => {
     try {
+      console.log(req.body)
+      console.log(req.files)
       const saltRounds = await bcrypt.genSalt(10); // You can adjust the number of salt rounds for security
       const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
       const idDocument = req.files['idDocument']; // Assuming the field name in the form is 'idDocument'
@@ -289,6 +291,7 @@ const registerPharmacist = asyncHandler(async (req, res) => {
     res.status(200).json(pharmacist)
   }
   catch(error){
+    console.log(error)
     res.send(error)
   }
   

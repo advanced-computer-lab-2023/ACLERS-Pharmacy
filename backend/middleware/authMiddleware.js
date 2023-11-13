@@ -5,6 +5,7 @@ const Patient = require('../models/Patient')
 const blacklistedTokens = require('./blackListedTokens');
 const Applicant = require('../models/Applicant');
 const Pharmacist = require('../models/Pharmacist')
+const Admin = require('../models/Admin')
 const protect = asyncHandler(async (req,res,next)=>{
 let token 
 let user
@@ -20,13 +21,13 @@ if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
      
         
      }else if (decoded.role=="pharmacist"){
-        user = await Pharmacist.findById(decoded.id).select('-password')
+        user = await Pharmacist.findById(decoded.id)
      }
      else if (decoded.role=="applicant"){
-        user = await Applicant.findById(decoded.id).select('-password')
+        user = await Applicant.findById(decoded.id)
 
      }else if(decoded.role == "admin"){
-        user = await Admin.findById(decoded.id).select('-password')
+        user = await Admin.findById(decoded.id)
      }
 
      

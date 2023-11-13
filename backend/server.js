@@ -3,7 +3,7 @@ const dotenv = require('dotenv').config()
 const connectDB = require('./config/db')
 const { urlencoded } = require('body-parser')
 const port = process.env.PORT 
-
+const path = require("path");
 const cors = require('cors'); // Import the cors package
 
 
@@ -28,7 +28,7 @@ app.get('/',(req,res)=>{
 })
 
 app.use('/auth',require('./routes/authRoutes'))
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/admin',require('./routes/adminRoutes'))
 app.use('/patient',require('./routes/patientRoutes'))
 app.use('/pharmacist',require('./routes/pharmacistRoutes'))
