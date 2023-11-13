@@ -85,6 +85,7 @@ export default function SignInSide() {
         }
        
       } else {
+        console.log(response)
         // Login failed
         console.error("Login failed");
         setLoginSuccess(false);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link ,useNavigate} from 'react-router-dom';
+import jwt from "jsonwebtoken-promisified";
 
 const MedicineListPatient = () => {
   const [medicines, setMedicines] = useState([]);
@@ -7,9 +8,20 @@ const MedicineListPatient = () => {
   const [filterMedicinalUse, setFilterMedicinalUse] = useState('');
   const [filteredMedicines, setFilteredMedicines] = useState([]);
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const decodedToken = jwt.decode(token);
+  console.log("decoded Token:", decodedToken);
+  
   useEffect(() => {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
     // Fetch medicines from the backend (replace with your actual API endpoint)
-    fetch(`http://localhost:8000/pharmacist/viewMedicines`)
+    fetch(`http://localhost:8000/patient/viewMedicines`,requestOptions)
       .then((response) => response.json())
       .then((data) => {
         setMedicines(data);

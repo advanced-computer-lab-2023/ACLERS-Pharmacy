@@ -16,7 +16,7 @@ const Admin = require('../models/Admin');
 const login= asyncHandler(async (req,res)=>{
   const {email,password}= req.body;
   const patient = await Patient.findOne({email})
-  
+  console.log(req.body)
   const pharmacist= await Pharmacist.findOne({email})
   const applicant=await Applicant.findOne({email})
   const admin = await Admin.findOne({email})
