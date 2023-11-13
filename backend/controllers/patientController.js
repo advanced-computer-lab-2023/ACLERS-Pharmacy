@@ -9,9 +9,9 @@ const axios = require('axios');
 const addToCart = asyncHandler(async(req,res)=>{
   try {
     const {  quantity } = req.body;
-    const medicineId = req.query.medicineId
+    const medicineId = req.body.medicineId
     const userId = req.user.id; // Assuming you store the user ID in req.user after authentication
-
+    console.log(quantity)
     // Find the medicine by ID
     const medicine = await Medicine.findById(medicineId);
    if(quantity>medicine.quantity){
@@ -103,6 +103,8 @@ const updateCartItemQuantity = asyncHandler(async (req, res) => {
     const userId = req.user.id;
     const itemId = req.query.itemId;
     const { quantity } = req.body;
+
+    console.log(quantity)
 
     // Find the user's shopping cart
     const shoppingCart = await ShoppingCart.findOne({ patient: userId });
@@ -197,6 +199,24 @@ const searchForMedicine = asyncHandler( async (req, res) => {
        shoppingCart.items.remove();
   
       res.json({ success: true, message: 'Order placed successfully', order });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  const getAllAddresses = asyncHandler(async (req, res) => {
+    try {
+      const userId = req.user.id; // Assuming you store the user ID in req.user after authentication
+  
+      // Find the patient by user ID and populate the deliveryAddresses field
+      const patient = await Patient.findById(userId).select('deliveryAddresses');
+  
+      if (!patient) {
+        return res.status(404).json({ error: 'Patient not found' });
+      }
+  
+      // Respond with the patient's delivery addresses
+      res.json({ success: true, addresses: patient.deliveryAddresses });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -430,5 +450,5 @@ const searchForMedicine = asyncHandler( async (req, res) => {
       return res.send(error)
       }
   })
-module.exports={placeOrder,pay,cancelOrder,viewOrders,viewMedicines,searchForMedicine,filterMedicines,addToCart,getCartItems,deleteCartItem,updateCartItemQuantity,checkoutOrder,addDeliveryAddress}
+module.exports={placeOrder,getAllAddresses,pay,cancelOrder,viewOrders,viewMedicines,searchForMedicine,filterMedicines,addToCart,getCartItems,deleteCartItem,updateCartItemQuantity,checkoutOrder,addDeliveryAddress}
   

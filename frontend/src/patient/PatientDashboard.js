@@ -1,22 +1,32 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+
 
 function PatientDashboard() {
+  const navigate = useNavigate();
+
   return (
     <div>
-      <nav>
-        <ul>
-          <li>
-            <h1>Welcome to the Patient Dashboard</h1>
-            <p>Here, you can access various features and information.</p>
-          </li>
-          <li>
+    <nav>
+      <ul>
+        <li>
+          <h1>Welcome to the Patient Dashboard</h1>
+          <p>Here, you can access various features and information.</p>
+        </li>
+        <li>
+          <div>
             <Link to="/patient/view-Medicines">View Medicines</Link>
-          </li>
-          {/* Add more navigation links as needed */}
-        </ul>
-      </nav>
-    </div>
+          </div>
+          <div>
+            <button onClick={() => navigate('/patient/view-cart')}>View Cart</button>
+          </div>
+        </li>
+        {/* Add more navigation links as needed */}
+      </ul>
+    </nav>
+  </div>
+  
   );
 }
 

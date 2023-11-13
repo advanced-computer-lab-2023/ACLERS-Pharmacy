@@ -17,6 +17,8 @@ import PharmacistSignUpPage from "./signup/signupPharmacist";
 import ViewApplicants from "./admin/viewapplicants";
 import SignupDirectory from "./signupdirectory/SignUpPage";
 import Login from "./login/SignInSide";
+import CartPage from "./patient/Cart";
+import OrderPage from "./patient/Order";
 
 function App() {
   return (
@@ -38,6 +40,14 @@ function App() {
         <Route
           path="/patient/view-Medicines"
           element={<MedicineListPatient />}
+        />
+         <Route
+          path="/patient/view-cart"
+          element={<CartPage />}
+        />
+         <Route
+          path="/patient/Order"
+          element={<OrderPage />}
         />
         <Route path="/admin/view-Medicines" element={<MedicineListAdmin />} />
 

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { cancelOrder,placeOrder,pay,addDeliveryAddress,checkoutOrder,updateCartItemQuantity,deleteCartItem,getCartItems,addToCart,viewMedicines}= require('../controllers/patientController')
+const { cancelOrder,placeOrder,pay,addDeliveryAddress,checkoutOrder,updateCartItemQuantity,deleteCartItem,getCartItems,addToCart,viewMedicines, getAllAddresses}= require('../controllers/patientController')
 const { searchForMedicine,filterMedicines } = require('../controllers/adminController')
 const{protect,checkRole} = require('../middleware/authMiddleware')
 
@@ -17,4 +17,6 @@ router.put('/change-quantity',protect,checkRole('patient'),updateCartItemQuantit
 router.post('/place-order',protect,checkRole('patient'),placeOrder)
 router.post('/pay',protect,checkRole('patient'),pay)
 router.post('/cancel-order',protect,checkRole('patient'),cancelOrder)
+router.get('/getAddresses',protect,checkRole('patient'),getAllAddresses)
+
 module.exports = router
