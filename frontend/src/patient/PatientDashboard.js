@@ -59,9 +59,18 @@ function PatientDashboard() {
           <li>
             <button onClick={handleLogout}>Logout</button>
           </li>
+          <div>
+            <button onClick={() => navigate('/patient/view-cart')}>View Cart</button>
+          </div>
+          <div>
+            <button onClick={() => navigate('/patient/viewOrder')}>View Order</button>
+          </div>
         </ul>
       </nav>
     
+        
+         
+       
   </div>
   );
 }

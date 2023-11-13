@@ -66,10 +66,32 @@ const CartPage = () => {
     updateQuantity(itemId, newQuantities[itemId]);
   };
 
-  const handleCheckout = () => {
-    // Navigate to the checkout page
-    navigate('/patient/Order');
-  };
+  const handleCheckout = async () =>{
+
+   try {
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+     
+    };
+
+    const response = await fetch(`http://localhost:8000/patient/checkout`, requestOptions);
+
+    if (response.ok) {
+      // Update the quantity in the local state
+      const responseData = await response.json();
+      console.log(responseData); // Access the order from responseData.order
+      navigate(`/patient/Order/${responseData.order._id}`);
+    } else {
+      console.error('Failed to update item quantity');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
 
   useEffect(() => {
     const requestOptions = {

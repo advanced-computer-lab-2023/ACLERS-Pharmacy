@@ -21,6 +21,8 @@ import CartPage from "./patient/Cart";
 import OrderPage from "./patient/Order";
 import PasswordChangeForm from "./components/changePassword";
 import ForgotPassword from "./login/forgotPassword";
+import OrderList from "./patient/viewOrder";
+
 function App() {
   return (
     <>
@@ -46,8 +48,12 @@ function App() {
           path="/patient/view-cart"
           element={<CartPage />}
         />
+          <Route
+          path="/patient/viewOrder"
+          element={< OrderList/>}
+        />
          <Route
-          path="/patient/Order"
+          path="/patient/Order/:id"
           element={<OrderPage />}
         />
         <Route path="/admin/view-Medicines" element={<MedicineListAdmin />} />
