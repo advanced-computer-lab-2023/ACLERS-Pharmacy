@@ -21,6 +21,9 @@ function PatientDashboard() {
           <div>
             <button onClick={() => navigate('/patient/view-cart')}>View Cart</button>
           </div>
+          <div>
+            <button onClick={() => navigate('/patient/viewOrder')}>View Order</button>
+          </div>
         </li>
         {/* Add more navigation links as needed */}
       </ul>

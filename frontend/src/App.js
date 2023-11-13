@@ -19,6 +19,7 @@ import SignupDirectory from "./signupdirectory/SignUpPage";
 import Login from "./login/SignInSide";
 import CartPage from "./patient/Cart";
 import OrderPage from "./patient/Order";
+import OrderList from "./patient/viewOrder";
 
 function App() {
   return (
@@ -45,8 +46,12 @@ function App() {
           path="/patient/view-cart"
           element={<CartPage />}
         />
+          <Route
+          path="/patient/viewOrder"
+          element={< OrderList/>}
+        />
          <Route
-          path="/patient/Order"
+          path="/patient/Order/:id"
           element={<OrderPage />}
         />
         <Route path="/admin/view-Medicines" element={<MedicineListAdmin />} />
