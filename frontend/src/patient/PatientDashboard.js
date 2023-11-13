@@ -37,22 +37,30 @@ function PatientDashboard() {
   };
   return (
     <div>
-      <nav>
-        <ul>
-          <li>
-            <h1>Welcome to the Patient Dashboard</h1>
-            <p>Here, you can access various features and information.</p>
-          </li>
-          <li>
+    <nav>
+      <ul>
+        <li>
+          <h1>Welcome to the Patient Dashboard</h1>
+          <p>Here, you can access various features and information.</p>
+        </li>
+        <li>
+          
             <Link to="/patient/view-Medicines">View Medicines</Link>
           </li>
           <li>
             <button onClick={handleLogout}>Logout</button>
           </li>
-          {/* Add more navigation links as needed */}
+          <li>
+         
+            <button onClick={() => navigate('/patient/view-cart')}>View Cart</button>
+            </li>
+        
+        
+        
         </ul>
       </nav>
-    </div>
+    
+  </div>
   );
 }
 
