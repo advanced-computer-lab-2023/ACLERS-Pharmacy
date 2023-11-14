@@ -45,6 +45,7 @@ function ViewMedicine() {
         method: 'PUT', // You might need to use 'PATCH' or 'PUT' depending on your API
         headers: {
           'Content-Type': 'application/json',
+           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ description: editedDescription, price: editedPrice }),
       });
