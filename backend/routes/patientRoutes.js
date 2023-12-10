@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
-const { viewOrder,cancelOrder,placeOrder,pay,addDeliveryAddress,checkoutOrder,updateCartItemQuantity,deleteCartItem,getCartItems,addToCart,viewMedicines, getAllAddresses, viewOrders}= require('../controllers/patientController')
+const { viewOrder,cancelOrder,placeOrder,pay,addDeliveryAddress,checkoutOrder,updateCartItemQuantity,deleteCartItem,getCartItems,addToCart,viewMedicines, getAllAddresses, viewOrders, showAlternativeMedicines}= require('../controllers/patientController')
 const { searchForMedicine,filterMedicines } = require('../controllers/adminController')
 const{protect,checkRole} = require('../middleware/authMiddleware')
+const { viewWalletAmount } = require('../controllers/pharmacistController')
 
 router.post('/add-delivery-address',protect,checkRole('patient'),addDeliveryAddress)
 router.post('/checkout',protect,checkRole('patient'),checkoutOrder)
@@ -18,7 +19,12 @@ router.put('/place-order',protect,checkRole('patient'),placeOrder)
 router.post('/pay',protect,checkRole('patient'),pay)
 router.put('/cancel-order',protect,checkRole('patient'),cancelOrder)
 router.get('/getAddresses',protect,checkRole('patient'),getAllAddresses)
-router.get('/viewOrder',protect,checkRole('patient'),viewOrders)
+router.get('/viewOrders',protect,checkRole('patient'),viewOrders)
 router.get('/view-order',protect,checkRole('patient'),viewOrder)
+router.get('/viewWallet',protect,checkRole('patient'),viewWalletAmount)
+router.get('/viewAlternatives',protect,checkRole('patient'),showAlternativeMedicines)
+
+
+
 
 module.exports = router

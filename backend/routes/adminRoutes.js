@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const {viewPatient,viewPharmacistInfo,viewPharmacists,ViewPatients,viewApplicants,approveDoctorRequest,disapproveDoctorRequest,addAdmin, removeAdmin, removePharmacist, removePatient, viewMedicines, searchForMedicine, filterMedicines}= require('../controllers/adminController')
+const {viewPatient,viewPharmacistInfo,viewPharmacists,ViewPatients,viewApplicants,approveDoctorRequest,disapproveDoctorRequest,addAdmin, removeAdmin, removePharmacist, removePatient, viewMedicines, searchForMedicine, filterMedicines,getSalesByMonth}= require('../controllers/adminController')
 
 
 
@@ -21,5 +21,8 @@ router.get('/viewPharmacists',viewPharmacists)
 router.get('/viewPharmacistInfo',viewPharmacistInfo)
 router.get('/ViewPatients',ViewPatients)
 router.get('/viewPatient',viewPatient)
+router.post('/monthSales',getSalesByMonth)
+
+
 
 module.exports = router
