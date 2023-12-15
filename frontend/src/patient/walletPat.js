@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken-promisified";
+import PatientNavbar from "../components/patientNavbar";
 
 const WalletAmount2 = () => {
   const [walletInfo, setWalletInfo] = useState(null);
@@ -44,11 +45,23 @@ const WalletAmount2 = () => {
     return <div>Loading...</div>;
   }
 
+  const formatBalance = (amount) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(amount);
+  };
+
   return (
-    <div>
-      <h1>Wallet Amount</h1>
-      <p>User ID: {walletInfo.userId}</p>
-      <p>Balance: {walletInfo.balance}</p>
+    <div style={{ textAlign: 'center', backgroundColor: '#e0e0e0', minHeight: '100vh' }}>
+      <PatientNavbar />
+      <div style={{ marginTop: '50px' }}>
+        <h1 style={{ fontFamily: 'Arial, sans-serif', marginLeft: '150px', fontSize: '40px', fontWeight: 'bold', color: '#333' }}> Balance</h1>
+        <p style={{ fontFamily: 'Arial, sans-serif', marginLeft: '150px', fontSize: '36px', fontWeight: 'bold', color: '#001f3f' }}>
+          {formatBalance(walletInfo.balance)}
+        </p>
+      </div>
     </div>
   );
 };

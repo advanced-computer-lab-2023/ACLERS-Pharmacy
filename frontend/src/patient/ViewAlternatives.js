@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate,useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import jwt from 'jsonwebtoken-promisified';
+import PatientNavbar from '../components/patientNavbar';
 
-const ViewAlternatives = ({ params }) => {
+const ViewAlternatives = () => {
   const token = localStorage.getItem('token');
   const decodedToken = jwt.decode(token);
-  const { medicineId } = useParams(); // Use useParams to get the medicineId
-  console.log (medicineId)
-
+  const { medicineId } = useParams();
 
   const [alternativeMedicines, setAlternativeMedicines] = useState([]);
   const [quantities, setQuantities] = useState({});
@@ -79,38 +78,41 @@ const ViewAlternatives = ({ params }) => {
   };
 
   return (
-    <div>
-      <button onClick={() => navigate(-1)}>Go Back</button>
-      <h1>Alternative Medicines</h1>
-      <ul>
-        {alternativeMedicines.map((medicine) => (
-          <li key={medicine._id}>
+    <div style={{ backgroundColor: '#e0e0e0', textAlign: 'center', minHeight: '100vh' }}>
+      <PatientNavbar />
+      <div style={{ backgroundColor: '#e0e0e0', padding: '20px', marginBottom: '20px', marginLeft: '80px' }}>
+        {/* Header */}
+        <div style={{ backgroundColor: '#fff', borderRadius: '8px', marginBottom: '15px', padding: '10px 380px', marginLeft: 180, textAlign: 'left' }}>
+          <h1 style={{ fontFamily: 'Arial, sans-serif', fontSize: '35px', fontWeight: 'bold', color: '#333' }}>Alternative Medicines</h1>
+        </div>
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start', marginLeft: '250px' }}>
+        {alternativeMedicines.map((medicine, index) => (
+          <div key={medicine._id} style={{ backgroundColor: '#fff', borderRadius: '8px', margin: '10px', padding: '15px', textAlign: 'left', flexBasis: '20%', marginLeft: '40px' }}>
             <img
               src={`http://localhost:8000/uploads/${medicine.picture.substring(8)}`}
-              style={{ maxWidth: '50%', maxHeight: '50%', objectFit: 'contain' }}
+              style={{ width: '100%', height: '150px', objectFit: 'contain', marginBottom: '10px' }}
               alt={medicine.name}
             />
-            <h3>{medicine.name}</h3>
-            <p>Description: {medicine.description}</p>
-            <p>Medicinal Use: {medicine.medicinialUse}</p>
-            <p>Price: {medicine.price}</p>
-            <div>
-              <button
-                onClick={() =>
-                  handleUpdateQuantity(medicine._id, Math.max(1, quantities[medicine._id] - 1))
-                }
-              >
+            <h3 style={{ fontFamily: 'Arial, sans-serif', fontSize: '18px', fontWeight: 'bold', color: '#000', cursor: 'pointer' }}>{medicine.name}</h3>
+            <p style={{ fontSize: '14px' }}>Description: {medicine.description}</p>
+            <p style={{ fontSize: '14px' }}>Medicinal Use: {medicine.medicinalUse}</p>
+            <p style={{ fontSize: '14px' }}>Price: {medicine.price}</p>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <button onClick={() => handleUpdateQuantity(medicine._id, Math.max(1, quantities[medicine._id] - 1))} style={{ backgroundColor: '#001f3f', color: '#fff', borderRadius: '4px', padding: '5px', marginRight: '5px' }}>
                 -
               </button>
-              <span>{quantities[medicine._id]}</span>
-              <button onClick={() => handleUpdateQuantity(medicine._id, quantities[medicine._id] + 1)}>
+              <span style={{ fontSize: '16px', fontWeight: 'bold', margin: '0 5px' }}>{quantities[medicine._id]}</span>
+              <button onClick={() => handleUpdateQuantity(medicine._id, quantities[medicine._id] + 1)} style={{ backgroundColor: '#001f3f', color: '#fff', borderRadius: '4px', padding: '5px', marginRight: '5px' }}>
                 +
               </button>
             </div>
-            <button onClick={() => handleAddToCart(medicine._id)}>Add to Cart</button>
-          </li>
+            <button onClick={() => handleAddToCart(medicine._id)} style={{ backgroundColor: '#001f3f', color: '#fff', cursor: 'pointer', fontFamily: 'Arial, sans-serif', marginTop: '10px', padding: '5px 15px', borderRadius: '4px' }}>
+              Add to Cart
+            </button>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

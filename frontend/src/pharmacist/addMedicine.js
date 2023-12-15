@@ -233,7 +233,7 @@ const CreateMedicine = () => {
         </div>
 
         <button style={buttonStyle} type="submit">
-          Create Medicine
+          Submit
         </button>
       </form>
     </div>

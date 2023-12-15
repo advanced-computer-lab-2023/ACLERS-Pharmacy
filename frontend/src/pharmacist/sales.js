@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import jwt from "jsonwebtoken-promisified";
 import PharmacistNavbar from '../components/pharmacistNavbar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 const Sales = () => {
   const [year, setYear] = useState("");
@@ -103,13 +105,14 @@ const Sales = () => {
     return <div>ACCESS DENIED, You are not authorized</div>;
   }
 
+  
   return (
     <div style={{ backgroundColor: '#e0e0e0', textAlign: 'center', minHeight: '100vh' }}>
       <PharmacistNavbar />
       <div style={{ padding: '20px', marginLeft: '80px' }}>
-        <h1>Sales Page</h1>
-        <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', marginBottom: '20px', display: 'flex', justifyContent: 'space-between' }}>
-          <div style={{ flex: 1, marginRight: '10px' }}>
+        <h1>Sales</h1>
+        <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', marginBottom: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <label>
               Year:
               <input
@@ -118,9 +121,7 @@ const Sales = () => {
                 onChange={(e) => setYear(e.target.value)}
               />
             </label>
-          </div>
-          <div style={{ flex: 1, marginRight: '10px' }}>
-            <label>
+            <label style={{ marginLeft: '10px' }}>
               Month:
               <input
                 type="text"
@@ -128,24 +129,20 @@ const Sales = () => {
                 onChange={(e) => setMonth(e.target.value)}
               />
             </label>
+            <FontAwesomeIcon
+              icon={faSearch}
+              style={{
+                marginLeft: '10px',
+                fontSize: '24px',
+                color: '#001f3f',
+                cursor: 'pointer',
+              }}
+              onClick={handleSearchByMonth}
+            />
           </div>
-          <button
-            onClick={handleSearchByMonth}
-            style={{
-              backgroundColor: '#001f3f',
-              color: '#fff',
-              padding: '10px',
-              fontSize: '16px',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-            }}
-          >
-            Search by Month
-          </button>
         </div>
-        <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', marginBottom: '20px', display: 'flex', justifyContent: 'space-between' }}>
-          <div style={{ flex: 1, marginRight: '10px' }}>
+        <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', marginBottom: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <label>
               Date:
               <input
@@ -154,9 +151,7 @@ const Sales = () => {
                 onChange={(e) => setDate(e.target.value)}
               />
             </label>
-          </div>
-          <div style={{ flex: 1, marginRight: '10px' }}>
-            <label>
+            <label style={{ marginLeft: '10px' }}>
               Medicine Name:
               <select
                 value={medicineName}
@@ -170,24 +165,20 @@ const Sales = () => {
                 ))}
               </select>
             </label>
+            <FontAwesomeIcon
+              icon={faFilter}
+              style={{
+                marginLeft: '10px',
+                fontSize: '24px',
+                color: '#001f3f',
+                cursor: 'pointer',
+              }}
+              onClick={handleFilter}
+            />
           </div>
-          <button
-            onClick={handleFilter}
-            style={{
-              backgroundColor: '#001f3f',
-              color: '#fff',
-              padding: '10px',
-              fontSize: '16px',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-            }}
-          >
-            Filter
-          </button>
         </div>
         <div>
-          <h2>Sales Results</h2>
+          {/* <h2>Sales Results</h2> */}
           <ul>
             {sales.map((sale) => (
               <li key={sale._id} style={{ background: '#fff', padding: '20px', borderRadius: '8px', marginBottom: '10px' }}>
