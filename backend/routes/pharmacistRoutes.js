@@ -7,7 +7,9 @@ const{protect,checkRole} = require('../middleware/authMiddleware')
 
 router.post('/upload-medicine-image',protect,checkRole('pharmacist'), upload.single('medicineImage'), uploadMedicineImage);
 router.get('/viewMedicines',protect,checkRole('pharmacist'),viewMedicines)
+router.get('/view-Medicines',viewMedicines)
 router.get('/viewMedicine',protect,checkRole('pharmacist'),viewMedicine)
+router.get('/view-Medicine',viewMedicine)
 router.get('/searchForMedicine',protect,checkRole('pharmacist'),searchForMedicine)
 router.get('/filterMedicines',protect,checkRole('pharmacist'),filterMedicines)
 router.post('/AddMedicine',protect,checkRole('pharmacist'),upload.single('medicineImage'),AddMedicine)
