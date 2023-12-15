@@ -9,6 +9,7 @@ const axios = require('axios');
 const notificationService = require('../services/notificationService');
 const mailService = require('../services/mailService')
 const Pharmacist = require('../models/Pharmacist')
+const Sales = require('../models/Sales');
 const addToCart = asyncHandler(async (req, res) => {
   try {
     const { quantity } = req.body;
@@ -139,32 +140,39 @@ const updateCartItemQuantity = asyncHandler(async (req, res) => {
 
 const viewMedicines = asyncHandler(async (req, res) => {
   try {
-    const Medicines = await Medicine.find()
-    res.status(200).send(Medicines)
+    const unarchivedMedicines = await Medicine.find({ status: 'unarchived' });
+
+    res.status(200).send(unarchivedMedicines);
   } catch (error) {
-    res.status(400).send(error)
+    res.status(400).send(error);
   }
-})
+});
+
 
 const searchForMedicine = asyncHandler(async (req, res) => {
+  try {
+    const name = req.body.name;
 
-
-  const name = req.body.name;
-
-
-  const medicine = await Medicine.find(name)
-  res.send(medicine)
+    // Modify the query to exclude archived medicines
+    const medicine = await Medicine.find({ name, status: 'unarchived' });
+    res.send(medicine);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
 
 const filterMedicines = asyncHandler(async (req, res) => {
+  try {
+    const medicinalUse = req.body.medicinialUse;
 
-
-  const medicinialUse = req.body.medicinialUse;
-
-
-  const medicines = await Medicine.find({ medicinialUse })
-  res.send(medicines)
+    // Modify the query to exclude archived medicines
+    const medicines = await Medicine.find({ medicinalUse, status: 'unarchived' });
+    res.send(medicines);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
+
 
 
 const checkoutOrder = asyncHandler(async (req, res) => {
@@ -319,6 +327,12 @@ const cancelOrder = asyncHandler(async (req, res) => {
         medicine.sales -= orderItem.quantity;
         await medicine.save();
       }
+      const salesToDelete = await Sales.find({ order: orderId });
+
+      // Delete each sale individually
+      for (const sale of salesToDelete) {
+          await Sales.findByIdAndDelete(sale._id);
+      }
       // Respond with success message or updated order details
       res.json({ success: true, message: 'Order canceled successfully', order });
     } else {
@@ -409,8 +423,17 @@ const placeOrder = asyncHandler(async (req, res) => {
         // Increment sales attribute
         medicine.sales += orderItem.quantity;
         await medicine.save();
+        const sales = new Sales({
+          medicineName: medicine.name,
+          quantitySold: orderItem.quantity,
+          order: order._id    
+           });
+
+      // Save the Sale to the database
+      await sales.save();
       }
-    }
+      }
+     
   } else if (paymentMethod === "credit Card") {
     const name = "Order"
     const description = "Medicine order"
@@ -443,7 +466,18 @@ const placeOrder = asyncHandler(async (req, res) => {
         // Increment sales attribute
         medicine.sales += orderItem.quantity;
         await medicine.save();
-      }
+        const sales = new Sales({
+          medicineName: medicine.name,
+          quantitySold: orderItem.quantity,
+          order: order._id    
+      });
+
+      // Save the Sale to the database
+      await sales.save();
+    }
+     
+  
+      // Save the order to the database
       // return res.json(stripeResponse)
     } catch (error) {
       console.log(error)
@@ -455,14 +489,37 @@ const placeOrder = asyncHandler(async (req, res) => {
     order.status = "Placed"
     await order.save()
     for (const orderItem of order.items) {
-      const medicine = await Medicine.findById(orderItem.medicine);
-      medicine.quantity -= orderItem.quantity;
-      await medicine.save();
+      try {
+        const medicine = await Medicine.findById(orderItem.medicine);
 
-      // Increment sales attribute
-      medicine.sales += orderItem.quantity;
-      await medicine.save();
+        // Increment sales attribute before saving the Medicine model
+        medicine.sales += orderItem.quantity;
+
+        // Update the Medicine quantity
+        medicine.quantity -= orderItem.quantity;
+        const name=medicine.name
+        // Save the Medicine model
+        await medicine.save();
+        console.log(order.id)
+        console.log(medicine.name)
+        console.log(orderItem.quantity)
+        const sales = new Sales({
+            medicineName: name,
+            quantitySold: orderItem.quantity,
+          order: order._id
+        });
+
+        // Save the Sale to the database
+        await sales.save();
+        console.log("ana 3amlt el sale");
+    } catch (error) {
+        console.error("Error processing order item:", error);
+        // Handle the error as needed
     }
+}
+      
+    
+
   }
 
 
@@ -507,4 +564,52 @@ const pay = asyncHandler(async (req, res) => {
     return res.send(error)
   }
 })
-module.exports = {viewOrder, placeOrder, getAllAddresses, pay, cancelOrder, viewOrders, viewMedicines, searchForMedicine, filterMedicines, addToCart, getCartItems, deleteCartItem, updateCartItemQuantity, checkoutOrder, addDeliveryAddress }
+
+const viewWalletAmount = asyncHandler(async (req, res) => {
+  try {
+      const userId = req.user.id;
+
+      // Find the wallet for the specified user ID
+      const wallet = await Wallet.findOne({ userId });
+
+      if (!wallet) {
+         res.status(404).json({ message: 'Wallet not found for the specified user ID' });
+      }
+
+      res.status(200).json({ userId: wallet.userId, balance: wallet.balance });
+  } catch (error) {
+      console.error("Error viewing wallet amount:", error);
+      res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
+
+const showAlternativeMedicines = asyncHandler(async (req, res) => {
+    try {
+        const medicineId = req.query.medicineId;
+
+        // Find the details of the specified medicine
+        const { details } = await Medicine.findById(medicineId);
+
+        if (!details) {
+            return res.status(404).json({ message: 'Medicine not found or details not available' });
+        }
+
+        // Find alternative medicines with similar details
+        const alternativeMedicines = await Medicine.find({
+            _id: { $ne: medicineId }, // Exclude the current medicine
+            details: details,
+            status: 'unarchived', // Only consider unarchived medicines
+        });
+
+        res.status(200).json(alternativeMedicines);
+    } catch (error) {
+        console.error("Error showing alternative medicines:", error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+
+
+module.exports = {viewOrder, showAlternativeMedicines,placeOrder,viewWalletAmount, getAllAddresses, pay, cancelOrder, viewOrders, viewMedicines, searchForMedicine, filterMedicines, addToCart, getCartItems, deleteCartItem, updateCartItemQuantity, checkoutOrder, addDeliveryAddress }

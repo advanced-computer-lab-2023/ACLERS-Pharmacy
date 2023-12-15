@@ -7,6 +7,7 @@ const Patient = require('../models/Patient')
 const Applicant = require('../models/Applicant');
 const Medicine = require('../models/Medicine');
 const Pharmacist = require('../models/Pharmacist');
+const Sales=require ('../models/Sales');
 
 
 const addAdmin = asyncHandler( async (req,res)=>{
@@ -289,11 +290,37 @@ const ViewPatients = asyncHandler(async (req, res) => {
     return res.status(400).send(error);
   }
 });
+const getSalesByMonth = asyncHandler(async (req, res) => {
+  try {
+      const { year, month } = req.body;
 
+      // Validate that year and month are provided in the request body
+      if (!year || !month) {
+          return res.status(400).json({ message: 'Year and month are required in the request body' });
+      }
+
+      // Calculate the start and end dates for the specified month
+      const startDate = new Date(year, month - 1, 1); // Month is 0-based
+      const endDate = new Date(year, month, 0); // Last day of the specified month
+
+      // Find sales within the specified date range
+      const sales = await Sales.find({
+          saleDate: {
+              $gte: startDate,
+              $lte: endDate,
+          },
+      });
+
+      res.status(200).json(sales);
+  } catch (error) {
+      console.error("Error retrieving sales by month:", error);
+      res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 
 
 
 module.exports = {filterMedicines,searchForMedicine,viewApplicants,addAdmin, removeAdmin, removePharmacist,
    removePatient,approveDoctorRequest,disapproveDoctorRequest,viewMedicines,
-   ViewPatients,viewPharmacistInfo,viewPharmacists,viewPatient}
+   ViewPatients,viewPharmacistInfo,viewPharmacists,viewPatient,getSalesByMonth}
 

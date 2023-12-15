@@ -203,22 +203,23 @@ const OrderPage = () => {
           <p>Status: {order.status}</p>
 
           <label>
-            Select Address:
-            <select
-              name="selectedAddress"
-              value={selectedAddress}
-              onChange={(e) => setSelectedAddress(e.target.value)}
-            >
-              <option value="" disabled>
-                Select an address
-              </option>
-              {addresses.map((address) => (
-                <option key={address && address._id} value={address && address._id}>
-                  {address && address.addressLine1}, {address && address.city}, {address && address.country}
-                </option>
-              ))}
-            </select>
-          </label>
+  Select Address:
+  <select
+    name="selectedAddress"
+    value={selectedAddress || ''}
+    onChange={(e) => setSelectedAddress(e.target.value)}
+  >
+    <option value="" disabled>
+      Select an address
+    </option>
+    {addresses.map((address) => (
+      <option key={address && address._id} value={address && address._id.toString()}>
+        {address && address.addressLine1}, {address && address.city}, {address && address.country}
+      </option>
+    ))}
+  </select>
+</label>
+
 
           <button onClick={handleAddAddressClick}>Add New Address</button>
 
