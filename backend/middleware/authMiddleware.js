@@ -16,9 +16,12 @@ if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
         return res.status(401).json({ message: 'Token is blacklisted' });
     }
      const decoded = jwt.verify(token,process.env.JWT_SECRET)
+     console.log(decoded)
      if(decoded.role == "patient"){
          user = await Patient.findById(decoded.id)
-     
+        if(!user){
+            user = await Patient.findOne({email:decoded.email})
+        }
         
      }else if (decoded.role=="pharmacist"){
         user = await Pharmacist.findById(decoded.id)

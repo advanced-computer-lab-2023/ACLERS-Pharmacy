@@ -6,6 +6,9 @@ const ShoppingCart = require('../models/ShoppingCart')
 const Order = require('../models/Order');
 const Wallet = require('../models/Wallet');
 const axios = require('axios');
+const notificationService = require('../services/notificationService');
+const mailService = require('../services/mailService')
+const Pharmacist = require('../models/Pharmacist')
 const Sales = require('../models/Sales');
 const addToCart = asyncHandler(async (req, res) => {
   try {
@@ -390,6 +393,32 @@ const placeOrder = asyncHandler(async (req, res) => {
         const medicine = await Medicine.findById(orderItem.medicine);
         medicine.quantity -= orderItem.quantity;
         await medicine.save();
+        if (medicine.quantity === 0) {
+          try {
+            // Fetch all pharmacists from the database
+            const pharmacists = await Pharmacist.find();
+        
+            // Iterate over each pharmacist and send a notification and email
+            for (const pharmacist of pharmacists) {
+              // You can customize the notification and email messages as needed
+              const notificationMessage = `Medicine ${medicine.name} is out of stock.`;
+              const emailSubject = 'Medicine Out of Stock';
+              const emailMessage = `Dear ${pharmacist.name},\n\nThe medicine ${medicine.name} is out of stock.`;
+        
+              // Send notification
+              await notificationService.sendNotification(pharmacist.id, notificationMessage);
+        
+              // Send email
+              await mailService.sendNotification(pharmacist.email, emailSubject, emailMessage);
+            }
+        
+            // Additional actions after notifying all pharmacists (if needed)
+            // ...
+          } catch (error) {
+            console.error('Error sending notifications and emails:', error);
+            // Handle the error appropriately
+          }
+        }
 
         // Increment sales attribute
         medicine.sales += orderItem.quantity;
