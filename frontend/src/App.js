@@ -22,8 +22,17 @@ import OrderPage from "./patient/Order";
 import PasswordChangeForm from "./components/changePassword";
 import ForgotPassword from "./login/forgotPassword";
 import OrderList from "./patient/viewOrder";
+import Sales from "./pharmacist/sales";
+import WalletAmount from "./pharmacist/walletPharm";
+import WalletAmount2 from "./patient/walletPat";
+import Sales2 from "./admin/sales";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import ViewAlternatives from "./patient/ViewAlternatives";
 
 function App() {
+  
   return (
     <>
       <Routes>
@@ -38,12 +47,30 @@ function App() {
           path="/pharmacist/view-Medicine/:medicineId"
           element={<ViewMedicine />}
         />
+        <Route
+          path="/pharmacist/sales"
+          element={<Sales />}
+        />
+         <Route
+          path="/admin/sales"
+          element={<Sales2 />}
+        />
+         <Route
+          path="/pharmacist/WalletAmount"
+          element={<WalletAmount />}
+        />
+         <Route
+          path="/patient/WalletAmount2"
+          element={<WalletAmount2 />}
+        />
         <Route path="/patient/Dashboard" element={<PatientDashboard />} />
         <Route path="/pharmacist/add-medicine" element={<CreateMedicine />} />
         <Route
           path="/patient/view-Medicines"
           element={<MedicineListPatient />}
         />
+<Route path="/patient/ViewAlternatives/:medicineId" element={<ViewAlternatives />} />
+
          <Route
           path="/patient/view-cart"
           element={<CartPage />}

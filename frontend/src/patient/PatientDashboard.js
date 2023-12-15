@@ -53,6 +53,9 @@ function PatientDashboard() {
             <Link to="/patient/view-cart">View Cart</Link>
             </li>
             <li>
+            <Link to="/patient/WalletAmount2">view wallet</Link>
+          </li>
+            <li>
             <Link to ={`/patient/change-password`}>Change Password</Link>
           </li>
         

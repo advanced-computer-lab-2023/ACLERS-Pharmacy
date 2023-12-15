@@ -17,6 +17,8 @@ router.put('/unarchiveMedicine',protect,checkRole('pharmacist'),unarchiveMedicin
 router.post('/monthSales',protect,checkRole('pharmacist'),getSalesByMonth)
 router.post('/filterSales',protect,checkRole('pharmacist'),filterSales)
 router.get('/viewWallet',protect,checkRole('pharmacist'),viewWalletAmount)
+router.get('/view-Medicines',viewMedicines)
+
 
 
 

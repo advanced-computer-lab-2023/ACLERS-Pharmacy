@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link ,useNavigate}from 'react-router-dom';
-import jwt from "jsonwebtoken-promisified";
+import { useNavigate } from 'react-router-dom';
+import jwt from 'jsonwebtoken-promisified';
 
 const MedicineListPatient = () => {
   const token = localStorage.getItem('token');
@@ -10,26 +10,26 @@ const MedicineListPatient = () => {
   const [medicines, setMedicines] = useState([]);
   const [searchName, setSearchName] = useState('');
   const [filterMedicinalUse, setFilterMedicinalUse] = useState('');
-  const [quantities, setQuantities] = useState({}); // Separate state for quantities
+  const [quantities, setQuantities] = useState({});
   const navigate = useNavigate();
- 
-  console.log("decoded Token:", decodedToken);
-  
+
+  console.log('decoded Token:', decodedToken);
+
   useEffect(() => {
     const requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     };
-    // Fetch medicines from the backend (replace with your actual API endpoint)
-    fetch(`http://localhost:8000/patient/viewMedicines`,requestOptions)
+
+    fetch(`http://localhost:8000/patient/viewMedicines`, requestOptions)
       .then((response) => response.json())
       .then((data) => {
         const initialQuantities = {};
         data.forEach((medicine) => {
-          initialQuantities[medicine._id] = 1; // Initialize quantity to 1
+          initialQuantities[medicine._id] = 1;
         });
         setMedicines(data);
         setQuantities(initialQuantities);
@@ -54,7 +54,6 @@ const MedicineListPatient = () => {
 
   const handleAddToCart = async (medicineId) => {
     const quantity = quantities[medicineId];
-    console.log(quantity)
 
     try {
       const requestOptions = {
@@ -69,12 +68,7 @@ const MedicineListPatient = () => {
       const response = await fetch('http://localhost:8000/patient/add-to-cart', requestOptions);
 
       if (response.ok) {
-        // Update the state to reflect that the medicine has been added to the cart
-        // setQuantities((prevQuantities) => ({
-        //   ...prevQuantities,
-        //   [medicineId]: prevQuantities[medicineId] + 1,
-        // }));
-        console.log("added succesfully")
+        console.log('added successfully');
       } else {
         console.error('Failed to add to cart');
       }
@@ -83,6 +77,10 @@ const MedicineListPatient = () => {
     }
   };
 
+  const handleViewAlternatives = (medicineId) => {
+    // Navigate to the page that displays alternatives for the specific medicine
+    navigate(`/patient/ViewAlternatives/${medicineId}`);
+  };
 
   const handleUpdateQuantity = (medicineId, newQuantity) => {
     setQuantities((prevQuantities) => ({
@@ -118,7 +116,11 @@ const MedicineListPatient = () => {
       <ul>
         {medicines.map((medicine) => (
           <li key={medicine._id}>
-            <img src= {`http://localhost:8000/uploads/${medicine.picture.substring(8)}`} style={{ maxWidth: "50%", maxHeight: "50%", objectFit: "contain" }} alt={medicine.name} />
+            <img
+              src={`http://localhost:8000/uploads/${medicine.picture.substring(8)}`}
+              style={{ maxWidth: '50%', maxHeight: '50%', objectFit: 'contain' }}
+              alt={medicine.name}
+            />
             <h3>{medicine.name}</h3>
             <p>Description: {medicine.description}</p>
             <p>Medicinal Use: {medicine.medicinialUse}</p>
@@ -137,7 +139,12 @@ const MedicineListPatient = () => {
               </button>
             </div>
             {!medicine.addedToCart ? (
-              <button onClick={() => handleAddToCart(medicine._id)}>Add to Cart</button>
+              <>
+                <button onClick={() => handleAddToCart(medicine._id)}>Add to Cart</button>
+                <button onClick={() => handleViewAlternatives(medicine._id)}>
+                  View Alternatives
+                </button>
+              </>
             ) : (
               <p>Added to Cart Successfully</p>
             )}

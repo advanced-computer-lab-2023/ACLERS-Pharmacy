@@ -13,7 +13,7 @@ const OrderList = () => {
     const fetchOrders = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:8000/patient/viewOrder', {
+        const response = await fetch('http://localhost:8000/patient/viewOrders', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

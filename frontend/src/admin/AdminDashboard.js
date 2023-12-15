@@ -46,6 +46,9 @@ function AdminDashboard() {
             <Link to="/admin/view-Medicines">View Medicines</Link>
           </li>
           <li>
+            <Link to="/admin/sales">Sales</Link>
+          </li>
+          <li>
             <Link to ={`/admin/change-password`}>Change Password</Link>
           </li>
           <li>
