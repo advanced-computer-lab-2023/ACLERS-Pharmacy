@@ -1,65 +1,68 @@
-import React, { Component } from 'react';
-import { Link ,useNavigate} from 'react-router-dom';
-import jwt from "jsonwebtoken-promisified";
+import React from 'react';
+import jwt from 'jsonwebtoken-promisified';
+import AdminNavbar from '../components/adminNavbar'; // Replace with the actual path to your adminNavbar
+import backgroundImage from './admin.jpg'; // Replace with the actual path to your image
+import { useNavigate } from 'react-router-dom';
+
+const containerStyle = {
+  position: 'relative',
+  minHeight: '100vh',
+};
+
+const backgroundStyle = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  backgroundImage: `url(${backgroundImage})`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+};
+
 function AdminDashboard() {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   const decodedToken = jwt.decode(token);
-  console.log("decoded Token:", decodedToken);
   const navigate = useNavigate();
+
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:8000/auth/logout", {
-        method: "POST",
+      const response = await fetch('http://localhost:8000/auth/logout', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (response.ok) {
         // Successfully logged out
-        localStorage.removeItem("token");
-        navigate("/"); // Redirect to the login or home page
+        localStorage.removeItem('token');
+        navigate('/'); // Redirect to the login or home page
       } else {
-        console.error("Logout failed");
+        console.error('Logout failed');
       }
     } catch (error) {
-      console.error("Error during logout:", error);
+      console.error('Error during logout:', error);
     }
   };
 
   if (!token) {
     // Handle the case where id is not available
-    return <div>ACCESS DENIED, You are not authenticated, please log in</div>;
-  }if(decodedToken.role !=="admin"){
-    return <div>ACCESS DENIED, You are not authorized</div>;
+    return <div style={containerStyle}>ACCESS DENIED, You are not authenticated, please log in</div>;
   }
-    return (
-      <div>
-        <nav>
-          <ul>
-            <li><Link to="/admin/viewpharmacists">View Pharmacist </Link></li>
-            <li><Link to="/admin/viewpatients">View Patients</Link></li>
-            <li><Link to="/admin/AdminAdd">Add Admin</Link></li>
-            <li><Link to="/admin/view-applicants">View Applicants</Link></li>
-            <li>
-            <Link to="/admin/view-Medicines">View Medicines</Link>
-          </li>
-          <li>
-            <Link to="/admin/sales">Sales</Link>
-          </li>
-          <li>
-            <Link to ={`/admin/change-password`}>Change Password</Link>
-          </li>
-          <li>
-            <button onClick={handleLogout}>Logout</button>
-          </li>
-          </ul>
-        </nav>
-        {/* Add content for each section here */}
-      </div>
-    );
-  
+
+  if (decodedToken.role !== 'admin') {
+    return <div style={containerStyle}>ACCESS DENIED, You are not authorized</div>;
+  }
+
+  return (
+    <div style={containerStyle}>
+      <AdminNavbar />
+      <div style={backgroundStyle}></div>
+      {/* Add content for each section here */}
+    </div>
+  );
 }
 
 export default AdminDashboard;
