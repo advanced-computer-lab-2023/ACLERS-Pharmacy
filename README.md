@@ -17,8 +17,10 @@ Follow [JavaScript Standard Style](https://standardjs.com/) for code styling.
 
 ## Screenshots
 
-Include screenshots or a video showcasing how the system looks or works.
-
+![login](https://github.com/advanced-computer-lab-2023/ACLERS-Pharmacy/assets/121358472/b366fea2-75d2-4bac-a8fd-963bf8cfd484)
+![dashboard](https://github.com/advanced-computer-lab-2023/ACLERS-Pharmacy/assets/121358472/7615e750-0ea1-468f-a70e-2c2761f9782e)
+![change password](https://github.com/advanced-computer-lab-2023/ACLERS-Pharmacy/assets/121358472/83671edb-0d60-4479-84e4-53bd1ef15567)
+![medicines](https://github.com/advanced-computer-lab-2023/ACLERS-Pharmacy/assets/121358472/144d72d4-adb0-4e0b-ab49-3cba433cbe98)
 ## Tech/Framework used
 
 - React.js for the frontend
