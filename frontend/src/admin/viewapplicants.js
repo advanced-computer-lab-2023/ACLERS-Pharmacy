@@ -6,12 +6,18 @@ import { Container, Typography, IconButton } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ApplicantDetails from "../components/applicantdetails.js"; // Replace with the actual path to your ApplicantDetails component
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import Slide from "@mui/material/Slide";
 
 const ViewApplicants = () => {
   const [applicants, setApplicants] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const decodedToken = jwt.decode(token);
+  const [acceptDialogOpen, setAcceptDialogOpen] = useState(false);
+  const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
+
 
   useEffect(() => {
     const fetchApplicants = async () => {
@@ -45,6 +51,8 @@ const ViewApplicants = () => {
       .then((data) => {
         // Handle the response, if needed
         console.log("Doctor approved:", data);
+        setAcceptDialogOpen(true);
+
       })
       .catch((error) => {
         console.error("Error approving doctor:", error);
@@ -64,6 +72,8 @@ const ViewApplicants = () => {
       .then((data) => {
         // Handle the response, if needed
         console.log("Doctor rejected:", data);
+
+        setRejectDialogOpen(true);
       })
       .catch((error) => {
         console.error("Error rejecting doctor:", error);
@@ -127,6 +137,27 @@ const ViewApplicants = () => {
             </IconButton>
           </Container>
         ))}
+        <Dialog
+          open = {acceptDialogOpen}
+          onClose={() => setAcceptDialogOpen(false)}
+          aria-describedby="accept-dialog-decription">
+            <DialogContent>
+              <Typography variant = "h6" color = "primary">
+                Applicant accepted!
+              </Typography>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog
+          open = {rejectDialogOpen}
+          onClose={() => setRejectDialogOpen(false)}
+          aria-describedby="reject-dialog-decription">
+            <DialogContent>
+              <Typography variant = "h6" color = "primary">
+                Applicant rejected.
+              </Typography>
+            </DialogContent>
+          </Dialog>
     </div>
   );
 };

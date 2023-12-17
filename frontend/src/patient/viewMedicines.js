@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwt from 'jsonwebtoken-promisified';
-import PatientNavbar from '../components/patientNavbar';
+import PatientNavbar from "../components/patientNavbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter, faCartPlus, faEye } from '@fortawesome/free-solid-svg-icons';
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import { Container, Typography, IconButton } from "@mui/material";
 
 const MedicineListPatient = () => {
   const [medicines, setMedicines] = useState([]);
@@ -14,6 +17,7 @@ const MedicineListPatient = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
   const decodedToken = jwt.decode(token);
+  const [DialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     const requestOptions = {
@@ -70,6 +74,11 @@ const MedicineListPatient = () => {
 
       if (response.ok) {
         console.log('added successfully');
+        setDialogOpen(true);
+
+        setTimeout(()=> {
+          setDialogOpen(false);
+        },5000);
       } else {
         console.error('Failed to add to cart');
       }
@@ -163,6 +172,16 @@ const MedicineListPatient = () => {
           </div>
         ))}
       </div>
+      <Dialog
+          open = {DialogOpen}
+          onClose={() => setDialogOpen(false)}
+          aria-describedby="accept-dialog-decription">
+            <DialogContent>
+              <Typography variant = "h6" color = "primary">
+                Added to Cart!
+              </Typography>
+            </DialogContent>
+          </Dialog>
     </div>
   );
 };

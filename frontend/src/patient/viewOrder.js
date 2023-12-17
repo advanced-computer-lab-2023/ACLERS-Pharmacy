@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faBan } from '@fortawesome/free-solid-svg-icons';
 import PatientNavbar from '../components/patientNavbar';
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import { Container, Typography, IconButton } from "@mui/material";
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
@@ -13,6 +16,7 @@ const OrderList = () => {
   const decodedToken = jwt.decode(token);
   const patientId = decodedToken.id;
   const navigate = useNavigate();
+  const [DialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -55,6 +59,11 @@ const OrderList = () => {
         );
         setOrders(updatedOrders);
         console.log('Order canceled successfully');
+        setDialogOpen(true);
+
+        setTimeout(()=> {
+          setDialogOpen(false);
+        },5000);
       } else {
         console.error('Error canceling order:', response.statusText);
       }
@@ -108,6 +117,16 @@ const OrderList = () => {
           </ul>
         )}
       </div>
+      <Dialog
+          open = {DialogOpen}
+          onClose={() => setDialogOpen(false)}
+          aria-describedby="accept-dialog-decription">
+            <DialogContent>
+              <Typography variant = "h6" color = "primary">
+                Order Cancelled
+              </Typography>
+            </DialogContent>
+          </Dialog>
     </div>
   );
 };

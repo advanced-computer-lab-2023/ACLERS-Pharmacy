@@ -4,6 +4,9 @@ import jwt from 'jsonwebtoken-promisified';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faPlus, faCreditCard, faMoneyBill, faCheck,faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import PatientNavbar from '../components/patientNavbar';
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import { Container, Typography, IconButton } from "@mui/material";
 
 const OrderPage = () => {
   const { id } = useParams();
@@ -24,6 +27,8 @@ const OrderPage = () => {
   const token = localStorage.getItem('token');
   const decodedToken = jwt.decode(token);
   const patientId = decodedToken.id;
+  const [DialogOpen, setDialogOpen] = useState(false);
+
 
   useEffect(() => {
     const checkoutOrder = async () => {
@@ -182,6 +187,11 @@ const OrderPage = () => {
 
       if (response.ok) {
         const data = await response.json();
+        setDialogOpen(true);
+
+        setTimeout(()=> {
+          setDialogOpen(false);
+        },5000);
         console.log('Order placed successfully:', data);
         window.location.href = data.url
         // Handle any further actions after placing the order
@@ -344,6 +354,16 @@ const OrderPage = () => {
           <p>Loading order details...</p>
         )}
       </div>
+      <Dialog
+          open = {DialogOpen}
+          onClose={() => setDialogOpen(false)}
+          aria-describedby="accept-dialog-decription">
+            <DialogContent>
+              <Typography variant = "h6" color = "primary">
+                success!
+              </Typography>
+            </DialogContent>
+          </Dialog>
     </div>
   );
   

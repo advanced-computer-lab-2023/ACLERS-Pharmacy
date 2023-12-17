@@ -6,6 +6,7 @@ const multer = require('multer'); // Import Multer
 //const upload = multer({ dest: 'uploads/' });
 const path = require('path');
 const ShoppingCart = require('../models/ShoppingCart')
+const notificationService = require('../services/notificationService');
 const viewMedicines = asyncHandler(async (req, res) => {
     try {
         const Medicines = await Medicine.find()
@@ -278,6 +279,7 @@ const filterSales = asyncHandler(async (req, res) => {
   }
 });
 const Wallet = require('../models/Wallet'); // Adjust the path based on your project structure
+const Patient = require('../models/Patient');
 
 const viewWalletAmount = asyncHandler(async (req, res) => {
     try {
@@ -296,5 +298,19 @@ const viewWalletAmount = asyncHandler(async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 });
-module.exports={viewMedicines,viewMedicine,searchForMedicine,filterMedicines,
+const getNotifications = asyncHandler(async (req,res)=>{
+  const notifications = await notificationService.getNotifications(req.user.id);
+  console.log(notifications)
+  res.send(notifications);
+});
+
+const getPatients = asyncHandler(async(req,res)=>{
+  try{
+    const patients= await Patient.find();
+    res.send(patients)
+  }catch(error){
+    res.send(error)
+  }
+})
+module.exports={getPatients,getNotifications,viewMedicines,viewMedicine,searchForMedicine,filterMedicines,
     AddMedicine,editMedicine,uploadMedicineImage,upload,archiveMedicine,unarchiveMedicine,getSalesByMonth,filterSales, viewWalletAmount}

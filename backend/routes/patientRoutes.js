@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
-const { viewOrder,cancelOrder,placeOrder,pay,addDeliveryAddress,checkoutOrder,updateCartItemQuantity,deleteCartItem,getCartItems,addToCart,viewMedicines, getAllAddresses, viewOrders, showAlternativeMedicines}= require('../controllers/patientController')
+const {getPharmacists, viewOrder,cancelOrder,placeOrder,pay,addDeliveryAddress,checkoutOrder,updateCartItemQuantity,deleteCartItem,getCartItems,addToCart,viewMedicines, getAllAddresses, viewOrders, showAlternativeMedicines}= require('../controllers/patientController')
 const { searchForMedicine,filterMedicines } = require('../controllers/adminController')
 const{protect,checkRole} = require('../middleware/authMiddleware')
 const { viewWalletAmount } = require('../controllers/pharmacistController')
+const {createConversation ,getConversation,getConversations,sendMessage,getMessages} = require('../controllers/conversationController')
 
 router.post('/add-delivery-address',protect,checkRole('patient'),addDeliveryAddress)
 router.post('/checkout',protect,checkRole('patient'),checkoutOrder)
@@ -23,7 +24,12 @@ router.get('/viewOrders',protect,checkRole('patient'),viewOrders)
 router.get('/view-order',protect,checkRole('patient'),viewOrder)
 router.get('/viewWallet',protect,checkRole('patient'),viewWalletAmount)
 router.get('/viewAlternatives',protect,checkRole('patient'),showAlternativeMedicines)
-
+router.post('/create-chat',protect,checkRole('patient'),createConversation)
+router.get('/get-chats',protect,checkRole('patient'),getConversations)
+router.get('/get-chat',protect,checkRole('patient'),getConversation)
+router.get('/get-messages',protect,checkRole('patient'),getMessages)
+router.post('/send-message',protect,checkRole('patient'),sendMessage)
+router.get('/pharmacists',protect,checkRole('patient'),getPharmacists)
 
 
 

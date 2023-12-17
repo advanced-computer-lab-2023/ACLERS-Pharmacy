@@ -1,8 +1,15 @@
 const express = require('express')
 const router = express.Router()
 
-const {upload, uploadMedicineImage,viewMedicines,viewMedicine, searchForMedicine,filterMedicines,AddMedicine,editMedicine, archiveMedicine, unarchiveMedicine, getSalesByMonth, filterSales, viewWalletAmount}= require('../controllers/pharmacistController')
+const {getPatients,getNotifications,upload, uploadMedicineImage,viewMedicines,viewMedicine, searchForMedicine,filterMedicines,AddMedicine,editMedicine, archiveMedicine, unarchiveMedicine, getSalesByMonth, filterSales, viewWalletAmount}= require('../controllers/pharmacistController')
 const{protect,checkRole} = require('../middleware/authMiddleware')
+const {createConversation ,getConversation,getConversations,sendMessage,getMessages} = require('../controllers/conversationController')
+
+router.post('/create-chat',protect,checkRole('pharmacist'),createConversation)
+router.get('/get-chats',protect,checkRole('pharmacist'),getConversations)
+router.get('/get-chat',protect,checkRole('pharmacist'),getConversation)
+router.get('/get-messages',protect,checkRole('pharmacist'),getMessages)
+router.post('/send-message',protect,checkRole('pharmacist'),sendMessage)
 
 
 router.post('/upload-medicine-image',protect,checkRole('pharmacist'), upload.single('medicineImage'), uploadMedicineImage);
@@ -20,8 +27,8 @@ router.post('/monthSales',protect,checkRole('pharmacist'),getSalesByMonth)
 router.post('/filterSales',protect,checkRole('pharmacist'),filterSales)
 router.get('/viewWallet',protect,checkRole('pharmacist'),viewWalletAmount)
 router.get('/view-Medicines',viewMedicines)
-
-
+router.get('/get-notifications',protect,checkRole('pharmacist'),getNotifications)
+router.get('/patients',protect,checkRole('pharmacist'),getPatients)
 
 
 

@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwt from 'jsonwebtoken-promisified';
 import PharmacistNavbar from '../components/pharmacistNavbar';
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import { Container, Typography, IconButton } from "@mui/material";
 
 const containerStyle = {
   display: 'flex',
@@ -55,6 +58,7 @@ const buttonStyle = {
 const CreateMedicine = () => {
   const token = localStorage.getItem('token');
   const decodedToken = jwt.decode(token);
+  const [DialogOpen, setDialogOpen] = useState(false);
 
   const [medicineData, setMedicineData] = useState({
     name: '',
@@ -103,8 +107,8 @@ const CreateMedicine = () => {
       });
 
       if (response.ok) {
-        // Display success message using a pop-up
-        window.alert('Medicine created successfully!');
+        
+        
         // Clear the form
         setMedicineData({
           name: '',
@@ -116,6 +120,11 @@ const CreateMedicine = () => {
           sales: '',
           medicinalUse: '',
         });
+        setDialogOpen(true);
+
+        setTimeout(()=> {
+          setDialogOpen(false);
+        },5000);
       } else {
         // Display error message using a pop-up
         window.alert('Failed to create medicine. Please try again.');
@@ -236,6 +245,16 @@ const CreateMedicine = () => {
           Submit
         </button>
       </form>
+      <Dialog
+          open = {DialogOpen}
+          onClose={() => setDialogOpen(false)}
+          aria-describedby="accept-dialog-decription">
+            <DialogContent>
+              <Typography variant = "h6" color = "primary">
+                Medicine Created!
+              </Typography>
+            </DialogContent>
+          </Dialog>
     </div>
   );
 };

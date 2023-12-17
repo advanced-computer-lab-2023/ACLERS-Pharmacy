@@ -30,6 +30,7 @@ const menuItems = [
     { id: "viewOrder", label: "View Order", icon: <ReceiptIcon /> },
     { id: "WalletAmount2", label: "View Wallet", icon: <AccountBalanceWalletIcon /> },
     { id: "change-password", label: "Change Password", icon: <LockIcon /> },
+    { id: "pharmacists", label: "Pharmacists", icon: <ViewListIcon  /> },
   ];
 
 function PatientNavbar() {

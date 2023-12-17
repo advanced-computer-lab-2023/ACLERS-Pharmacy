@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import jwt from 'jsonwebtoken-promisified';
-import PatientNavbar from '../components/patientNavbar';
+import PatientNavbar from "../components/patientNavbar";
 
 const ViewAlternatives = () => {
   const token = localStorage.getItem('token');

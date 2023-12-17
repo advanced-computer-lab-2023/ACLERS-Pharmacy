@@ -28,9 +28,9 @@ import WalletAmount2 from "./patient/walletPat";
 import Sales2 from "./admin/sales";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Pharmacists from "../src/patient/pharmacists"
 import ViewAlternatives from "./patient/ViewAlternatives";
-
+import ChatPatient from "../src/patient/ChatPatient"
 function App() {
   
   return (
@@ -99,6 +99,8 @@ function App() {
         <Route path="/pharmacist/change-password/" element={<PasswordChangeForm/>}/>
         <Route path="/admin/change-password/" element={<PasswordChangeForm/>}/>
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
+        <Route path="/patient/pharmacists" element={<Pharmacists/>}/>
+        <Route path="/patient/chat/:conversationId/:doctor" element={<ChatPatient/>}/>
       </Routes>
     </>
   );

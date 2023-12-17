@@ -6,6 +6,9 @@ import { faSave, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import { Container, Typography, IconButton } from "@mui/material";
 
 function ViewMedicine() {
   const { medicineId } = useParams();
@@ -16,6 +19,7 @@ function ViewMedicine() {
   const token = localStorage.getItem('token');
   const decodedToken = jwt.decode(token);
   const navigate = useNavigate();
+  const [DialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     const requestOptions = {
@@ -58,6 +62,11 @@ function ViewMedicine() {
           description: editedDescription,
           price: editedPrice,
         }));
+        setDialogOpen(true);
+
+        setTimeout(()=> {
+          setDialogOpen(false);
+        },5000);
         toast.success('Medicine saved successfully', { onClose: () => navigate(`/pharmacist/view-Medicine/${medicineId}`) });
       } else {
         toast.error('Failed to save medicine');
@@ -143,6 +152,16 @@ function ViewMedicine() {
             </div>
           )}
         </div>
+        <Dialog
+          open = {DialogOpen}
+          onClose={() => setDialogOpen(false)}
+          aria-describedby="accept-dialog-decription">
+            <DialogContent>
+              <Typography variant = "h6" color = "primary">
+                Medicine Saved!
+              </Typography>
+            </DialogContent>
+          </Dialog>
       </div>
     </div>
   );

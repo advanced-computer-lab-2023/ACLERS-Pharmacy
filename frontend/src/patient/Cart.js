@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faSync, faShoppingCart, faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
 import PatientNavbar from '../components/patientNavbar';
 
+
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [newQuantities, setNewQuantities] = useState({});
@@ -12,6 +13,7 @@ const CartPage = () => {
   const token = localStorage.getItem('token');
   const decodedToken = jwt.decode(token);
   const patientId = decodedToken.id;
+  const [DialogOpen, setDialogOpen] = useState(false);
 
   const removeFromCart = async (itemId) => {
     try {

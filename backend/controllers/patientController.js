@@ -10,6 +10,7 @@ const notificationService = require('../services/notificationService');
 const mailService = require('../services/mailService')
 const Pharmacist = require('../models/Pharmacist')
 const Sales = require('../models/Sales');
+
 const addToCart = asyncHandler(async (req, res) => {
   try {
     const { quantity } = req.body;
@@ -406,7 +407,7 @@ const placeOrder = asyncHandler(async (req, res) => {
               const emailMessage = `Dear ${pharmacist.name},\n\nThe medicine ${medicine.name} is out of stock.`;
         
               // Send notification
-              await notificationService.sendNotification(pharmacist.id, notificationMessage);
+              await notificationService.sendNotification(pharmacist._id, notificationMessage);
         
               // Send email
               await mailService.sendNotification(pharmacist.email, emailSubject, emailMessage);
@@ -610,6 +611,13 @@ const showAlternativeMedicines = asyncHandler(async (req, res) => {
     }
 });
 
+const getPharmacists = asyncHandler(async (req,res)=>{
+  try{
+    const pharmacists = await Pharmacist.find();
+    res.send(pharmacists);
+  }catch(error){
+    res.send(error);
+  }
+})
 
-
-module.exports = {viewOrder, showAlternativeMedicines,placeOrder,viewWalletAmount, getAllAddresses, pay, cancelOrder, viewOrders, viewMedicines, searchForMedicine, filterMedicines, addToCart, getCartItems, deleteCartItem, updateCartItemQuantity, checkoutOrder, addDeliveryAddress }
+module.exports = {getPharmacists,viewOrder, showAlternativeMedicines,placeOrder,viewWalletAmount, getAllAddresses, pay, cancelOrder, viewOrders, viewMedicines, searchForMedicine, filterMedicines, addToCart, getCartItems, deleteCartItem, updateCartItemQuantity, checkoutOrder, addDeliveryAddress }
